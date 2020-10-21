@@ -1,0 +1,23 @@
+{
+  "name": "chart-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BruceHenry/chart-builder.git"
+  },
+  "author": "Han Bao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BruceHenry/chart-builder/issues"
+  },
+  "homepage": "https://github.com/BruceHenry/chart-builder#readme"
+}

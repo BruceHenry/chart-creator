@@ -1,72 +1,54 @@
 <template>
-    <v-chart :options="polar"/>
+  <div id="echarts"></div>
 </template>
 
-<style>
-/**
- * 默认尺寸为 600px×400px，如果想让图表响应尺寸变化，可以像下面这样
- * 把尺寸设为百分比值（同时请记得为容器设置尺寸）。
- */
-.echarts {
-  width: 600px;
-  height: 400px;
-}
-</style>
-
 <script>
-import ECharts from 'vue-echarts'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/polar'
+import "echarts/lib/chart/bar";
+import "echarts/lib/chart/custom";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/legend";
+import "echarts/lib/component/title";
+import * as echarts from "echarts/lib/echarts";
+import { defineComponent } from "vue";
 
-export default {
-  components: {
-    'v-chart': ECharts
-  },
-  data () {
-    let data = []
-
-    for (let i = 0; i <= 360; i++) {
-        let t = i / 180 * Math.PI
-        let r = Math.sin(2 * t) * Math.cos(2 * t)
-        data.push([r, i])
+export default defineComponent({
+  name: "chart",
+  props: {
+    option: {
+      type: Object,
+      required: true
     }
-
-    return {
-      polar: {
-        title: {
-          text: '极坐标双数值轴'
-        },
-        legend: {
-          data: ['line']
-        },
-        polar: {
-          center: ['50%', '54%']
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross'
-          }
-        },
-        angleAxis: {
-          type: 'value',
-          startAngle: 0
-        },
-        radiusAxis: {
-          min: 0
-        },
-        series: [
-          {
-            coordinateSystem: 'polar',
-            name: 'line',
-            type: 'line',
-            showSymbol: false,
-            data: data
-          }
-        ],
-        animationDuration: 2000
+  },
+  mounted() {
+    this.myChart = echarts.init(document.getElementById("echarts"));
+    this.myChart.setOption(this.option);
+  },
+  watch: {
+    option: {
+      deep: true,
+      handler(){
+        try {
+          this.myChart.setOption(this.option);
+        }
+        catch(error) {
+          console.log("Error happens, render the chart");
+          this.myChart = echarts.init(document.getElementById("echarts"));
+          this.myChart.setOption(this.option);
+        }
       }
     }
+  },
+  data() {
+    return {
+      myChart: undefined
+    };
   }
-}
+});
 </script>
+
+<style>
+#echarts {
+  width: 800px;
+  height: 600px;
+}
+</style>

@@ -1,22 +1,17 @@
 <template>
-  <div>
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
-    <Main></Main>
-  </div>
+  <Main></Main>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-// import HelloWorld from './components/HelloWorld.vue';
+import { defineComponent } from 'vue';
 import Main from './components/Main.vue';
 
-@Options({
+export default defineComponent({
+  name: 'app',
   components: {
-    Main,
+    Main
   },
-})
-export default class App extends Vue {}
+});
 </script>
 
 <style>

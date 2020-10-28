@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "install": "(cd ./app && npm install) & (cd ../ && npm install)",
+    "start": "(npm run build --prefix ./app) && (node server.js)"
   },
   "dependencies": {
     "express": "^4.14.0"

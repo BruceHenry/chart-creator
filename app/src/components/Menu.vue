@@ -1,14 +1,35 @@
 <template>
     <div id="menu-container">
+        <form>
+            <div>
+                <label>Title:</label>
+                <input v-model="model.title.text"/>
+            </div>
+            <div>
+                <label>Title:</label>
+                <input v-model="model.title.text"/>
+            </div>
+        </form>
     </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-
-<script>
-import { Vue } from 'vue-class-component';
-export default class Menu extends Vue {
-}
+export default defineComponent({
+  name: 'menu',
+  props: {
+    option: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      model: this.option
+    }
+  }
+});
 </script>
 
 <style>

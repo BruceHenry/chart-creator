@@ -1,26 +1,29 @@
 <template>
-    <div id="container">
-        <Chart></Chart>
-        <Menu></Menu>
-    </div>
+  <div>
+    <Chart :option="option"></Chart>
+    <Menu :option="option"></Menu>
+  </div>
 </template>
 
 
 
 <script>
-import { Options, Vue } from 'vue-class-component';
-import Chart from './Chart.vue';
-import Menu from './Menu.vue';
+import { defineComponent } from "vue";
+import Chart from "./Chart.vue";
+import Menu from "./Menu.vue";
 
-@Options({
+import barChartTemplate from '../json/bar.json'
+
+export default defineComponent({
+  name: "main",
   components: {
     Chart,
-    Menu
+    Menu,
   },
-})
-
-export default class Main extends Vue {
-}
+  data() {
+    return { option: barChartTemplate };
+  },
+});
 </script>
 
 <style>

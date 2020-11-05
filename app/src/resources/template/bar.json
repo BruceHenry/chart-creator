@@ -1,0 +1,16 @@
+{
+    "title": {
+        "text": ""
+    },
+    "tooltip": {},
+    "legend": {
+        "data": [],
+        "show": true,
+        "selectedMode": false
+    },
+    "xAxis": {
+        "data": []
+    },
+    "yAxis": {},
+    "series": []
+}

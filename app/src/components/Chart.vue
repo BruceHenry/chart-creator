@@ -36,10 +36,13 @@ export default defineComponent({
     let myChart = {};
 
     onMounted(() => {
+      console.log('1211111111111');
+      console.log(props.option);
       myChart = echarts.init(document.getElementById("echarts"));
       myChart.setOption(props.option);
 
       watchEffect(() => {
+        console.log('watchEffect');
         onOptionUpdate(myChart, props);
       });
     });

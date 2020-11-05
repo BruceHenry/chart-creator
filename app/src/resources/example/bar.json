@@ -8,6 +8,7 @@
             "Category A",
             "Category B"
         ],
+        "show": true,
         "selectedMode": false
     },
     "xAxis": {
@@ -23,28 +24,14 @@
     "yAxis": {},
     "series": [
         {
-            "name": "Category A",
+            "name": "Category A",            
             "type": "bar",
-            "data": [
-                5,
-                20,
-                36,
-                10,
-                10,
-                20
-            ]
+            "data": [5,20,36,10,10,20]
         },
         {
             "name": "Category B",
             "type": "bar",
-            "data": [
-                15,
-                10,
-                26,
-                15,
-                15,
-                22
-            ]
+            "data": [15,10,26,15,15,22]
         }
     ]
 }

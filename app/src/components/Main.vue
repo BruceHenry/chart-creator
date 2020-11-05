@@ -8,7 +8,7 @@
 
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 import Chart from "./Chart.vue";
 import Menu from "./Menu.vue";
 
@@ -20,8 +20,12 @@ export default defineComponent({
     Chart,
     Menu,
   },
-  data() {
-    return { option: barChartTemplate };
+  setup() {
+    let option = {};
+    Object.assign(option, barChartTemplate)
+    return { 
+      option: reactive(option) 
+    };
   },
 });
 </script>

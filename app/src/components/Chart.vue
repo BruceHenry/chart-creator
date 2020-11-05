@@ -9,7 +9,20 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import * as echarts from "echarts/lib/echarts";
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, watchEffect } from "vue";
+
+function onOptionUpdate(myChart, props) {
+  const option = props.option;
+  try {
+    myChart.setOption(option);
+  }
+  catch(error) {
+    console.error(error);
+    console.error("Error happens, render the chart");
+    myChart = echarts.init(document.getElementById("echarts"));
+    myChart.setOption(option);
+  }
+}
 
 export default defineComponent({
   name: "chart",
@@ -19,29 +32,17 @@ export default defineComponent({
       required: true
     }
   },
-  mounted() {
-    this.myChart = echarts.init(document.getElementById("echarts"));
-    this.myChart.setOption(this.option);
-  },
-  watch: {
-    option: {
-      deep: true,
-      handler(){
-        try {
-          this.myChart.setOption(this.option);
-        }
-        catch(error) {
-          console.log("Error happens, render the chart");
-          this.myChart = echarts.init(document.getElementById("echarts"));
-          this.myChart.setOption(this.option);
-        }
-      }
-    }
-  },
-  data() {
-    return {
-      myChart: undefined
-    };
+  setup(props) {
+    let myChart = {};
+
+    onMounted(() => {
+      myChart = echarts.init(document.getElementById("echarts"));
+      myChart.setOption(props.option);
+
+      watchEffect(() => {
+        onOptionUpdate(myChart, props);
+      });
+    });
   }
 });
 </script>

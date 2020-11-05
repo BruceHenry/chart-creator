@@ -24,9 +24,9 @@ export default defineComponent({
       required: true
     }
   },
-  data() {
+  setup(props) {
     return {
-      model: this.option
+      model: props.option
     }
   }
 });

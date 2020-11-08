@@ -6,7 +6,7 @@
     "legend": {
         "data": [],
         "show": true,
-        "selectedMode": false
+        "selectedMode": true
     },
     "xAxis": {
         "data": []

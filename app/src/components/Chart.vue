@@ -1,5 +1,5 @@
 <template>
-  <div id="echarts"></div>
+<div id="echarts"></div>
 </template>
 
 <script>
@@ -9,16 +9,19 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import * as echarts from "echarts/lib/echarts";
-import { defineComponent, onMounted, watchEffect } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  watchEffect
+} from "vue";
 
 function onOptionUpdate(myChart, props) {
   const option = props.option;
   try {
     myChart.setOption(option);
-  }
-  catch(error) {
-    console.error(error);
+  } catch (error) {
     console.error("Error happens, render the chart");
+    console.error(error);
     myChart = echarts.init(document.getElementById("echarts"));
     myChart.setOption(option);
   }
@@ -36,13 +39,10 @@ export default defineComponent({
     let myChart = {};
 
     onMounted(() => {
-      console.log('1211111111111');
-      console.log(props.option);
       myChart = echarts.init(document.getElementById("echarts"));
       myChart.setOption(props.option);
 
       watchEffect(() => {
-        console.log('watchEffect');
         onOptionUpdate(myChart, props);
       });
     });

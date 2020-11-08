@@ -9,7 +9,7 @@
             "Category B"
         ],
         "show": true,
-        "selectedMode": false
+        "selectedMode": true
     },
     "xAxis": {
         "data": [

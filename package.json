@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "install": "(cd ./app && npm install) & (cd ../ && npm install)",
+    "install": "(cd ./app && npm install)",
     "start": "(npm run build --prefix ./app) && (node server.js)"
   },
   "dependencies": {

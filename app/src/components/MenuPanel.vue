@@ -23,21 +23,17 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent
-} from 'vue';
+import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'menu-panel',
-  props: {
-    option: {
-      type: Object,
-      required: true
-    }
-  },
-  setup(props) {
+  setup() {
+    const store = useStore();
+    const option = store.getters.option;
+
     return {
-      model: props.option
+      model: option
     };
   }
 });

@@ -1,83 +1,57 @@
 <template>
-<div id="table"></div>
+    <div id="table"></div>
 </template>
 
-<script>
-import {
-  defineComponent,
-  onMounted,
-  reactive
-} from "vue";
-import Tabulator from 'tabulator-tables';
-import "tabulator-tables/dist/css/tabulator.min.css";
+<script lang="js">
+import { defineComponent, onMounted, reactive } from "vue"
+import { useStore } from 'vuex'
+
+import Tabulator from 'tabulator-tables'
+import "tabulator-tables/dist/css/tabulator.min.css"
+
+import { getColumnTitle, getColumnIndex, getMaxLength, getData } from "../utils/table";
 
 export default defineComponent({
   name: "data-table",
   setup() {
-    var data = reactive([{
-        id: 1,
-        name: "Oli Bob",
-        progress: 12,
-        gender: "male",
-        rating: 1,
-        col: "red",
-        dob: "19/02/1984",
-        car: 1
-      },
-      {
-        id: 2,
-        name: "Mary May",
-        progress: 1,
-        gender: "female",
-        rating: 2,
-        col: "blue",
-        dob: "14/05/1982",
-        car: true
-      },
-      {
-        id: 3,
-        name: "Christine Lobowski",
-        progress: 42,
-        gender: "female",
-        rating: 0,
-        col: "green",
-        dob: "22/05/1982",
-        car: "true"
-      },
-      {
-        id: 4,
-        name: "Brendon Philips",
-        progress: 100,
-        gender: "male",
-        rating: 1,
-        col: "orange",
-        dob: "01/08/1980"
-      },
-      {
-        id: 5,
-        name: "Margret Marmajuke",
-        progress: 16,
-        gender: "female",
-        rating: 5,
-        col: "yellow",
-        dob: "31/01/1999"
-      },
-      {
-        id: 6,
-        name: "Frank Harbours",
-        progress: 38,
-        gender: "male",
-        rating: 4,
-        col: "red",
-        dob: "12/05/1966",
-        car: 1
-      },
-    ]);
+    const store = useStore();
+    const inputData = store.getters.inputData;
+    var data = getData(inputData);
+
+    const maxLength = getMaxLength(data);
+
+    const columns = [{title: '', field: ''}];
+    for (let i = 0; i < maxLength; i++) {
+      columns.push({title: getColumnTitle(i), field: getColumnTitle(i), editor:"input"});
+    }
+
+    const tableData = [];
+
+    for (let row = 0; row < data.length; row++) {
+      const rowObj = {'': row};
+      tableData.push(rowObj);
+      for(let col = 0; col < data[row].length; col++) {
+        rowObj[getColumnTitle(col)] = data[row][col];
+      }
+    }
 
     onMounted(() => {
       new Tabulator(document.getElementById("table"), {
-        data: data, //assign data to table
-        autoColumns: true, //create columns from data field names
+        data: reactive(tableData), //assign data to table
+        layout:"fitColumns",
+        columns,
+        cellEdited: function(cell){//cell - cell component
+          // console.log('col', getColumnIndex(cell.getColumn().getField()))
+          // console.log('row', cell.getData()[''])
+          // console.log(cell)
+          const row = cell.getData()[''];
+          const col = getColumnIndex(cell.getColumn().getField());
+          const value = cell.getValue();
+          const newData = Object.assign([], inputData);
+          newData[row + 1][col + 1] = parseInt(value);
+          store.dispatch('setInputData', newData);
+        },
+        // autoColumns: true, //create columns from data field names
       });
     });
   }
@@ -87,6 +61,5 @@ export default defineComponent({
 <style>
 #table {
   width: 800px;
-  /* height: 600px; */
 }
 </style>

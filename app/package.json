@@ -12,7 +12,8 @@
     "echarts": "^4.9.0",
     "tabulator-tables": "^4.8.4",
     "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0"
+    "vue-class-component": "^8.0.0-0",
+    "vuex": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",

@@ -10,8 +10,6 @@ export const getDefaultColor = function (index) {
 
 export const generateOption = function (inputData) {
     let outputJson = JSON.parse(JSON.stringify(barChartTemplate));
-    console.log(outputJson)
-
     //xAxis
     for (let i = 1; i < inputData[0].length; i++) {
         outputJson.xAxis.data.push(inputData[0][i]);
@@ -34,6 +32,22 @@ export const generateOption = function (inputData) {
         }
     }
     return outputJson;
+}
+
+export const updateOption = function (option, {row, col, value}) {
+    if (row === 0 && col === 0) {
+        return;
+    }
+    else if (row === 0) {// xAxis name
+        option.xAxis.data[col - 1] = value;
+    }
+    else if (col === 0) {// legend name and series name
+        option.legend.data[row - 1] = value;
+        option.series[row - 1].name = value;
+    }
+    else {
+        option.series[row - 1].data[col - 1] = value;
+    }
 }
 
 // function initInputJson(inputJson) {

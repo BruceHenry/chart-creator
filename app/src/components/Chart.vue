@@ -13,13 +13,17 @@ import * as echarts from "echarts/lib/echarts"
 import { defineComponent, onMounted, watchEffect } from "vue"
 import { useStore } from 'vuex'
 
-function updateChart(myChart, option) {
+function updateChart(myChart, option, afterClearCallback) {
   try {
-    myChart = echarts.init(document.getElementById("echarts"));
+    if (option.clearFlag) {
+      myChart.clear();
+      afterClearCallback();
+    }
     myChart.setOption(option);
   } catch (error) {
     console.error("Error happens, render the chart");
     console.error(error);
+    myChart.clear()
     myChart.dispose();
     myChart = echarts.init(document.getElementById("echarts"));
     myChart.setOption(option);
@@ -33,14 +37,18 @@ export default defineComponent({
 
     const option = store.getters.option;
 
+    const afterClearCallback = function () {
+      store.dispatch('turnOffClear');
+    }
+
     let myChart = {};
 
     onMounted(() => {
       myChart = echarts.init(document.getElementById("echarts"));
       myChart.setOption(option);
 
-      watchEffect(() => {
-        updateChart(myChart, store.getters.option);
+      watchEffect(() => {        
+        updateChart(myChart, store.getters.option, afterClearCallback);
       });
     });
   }

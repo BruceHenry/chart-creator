@@ -1,15 +1,15 @@
 <template>
-<Main></Main>
+<MainPanel></MainPanel>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Main from './components/Main.vue';
+import MainPanel from './components/MainPanel.vue';
 
 export default defineComponent({
   name: 'app',
   components: {
-    Main
+    MainPanel
   },
 });
 </script>

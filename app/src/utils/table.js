@@ -35,9 +35,9 @@ export const getMaxLength = function (arrays) {
 
 export const getData = function(inputData) {
     const data = [];
-    for (let i = 1; i < inputData.length; i++) {
+    for (let i = 0; i < inputData.length; i++) {
         var row = [];
-        for (let j = 1; j < inputData[i].length; j++) {
+        for (let j = 0; j < inputData[i].length; j++) {
             row.push(inputData[i][j]);
         }
         data.push(row);

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="js">
-import { defineComponent, onMounted, reactive } from "vue"
+import { defineComponent, onMounted, watchEffect } from "vue"
 import { useStore } from 'vuex'
 
 import Tabulator from 'tabulator-tables'
@@ -11,16 +11,12 @@ import "tabulator-tables/dist/css/tabulator.min.css"
 
 import { getColumnTitle, getColumnIndex, getMaxLength, getData } from "../utils/table";
 
-export default defineComponent({
-  name: "data-table",
-  setup() {
-    const store = useStore();
-    const inputData = store.getters.inputData;
-    var data = getData(inputData);
+function getTable(chartData) {
+    const data = getData(chartData);
 
     const maxLength = getMaxLength(data);
 
-    const columns = [{title: '', field: ''}];
+    const columns = [{title: '', field: '', width: 40,resizable :false, frozen:true, formatter:(cell) => {cell.getElement().style.backgroundColor = "#e6e6e6";return cell.getValue()}}];
     for (let i = 0; i < maxLength; i++) {
       columns.push({title: getColumnTitle(i), field: getColumnTitle(i), editor:"input"});
     }
@@ -34,24 +30,46 @@ export default defineComponent({
         rowObj[getColumnTitle(col)] = data[row][col];
       }
     }
+    return {columns, tableData};
+}
+
+function initTable(chartData, updateCellCallback) {
+    const table = getTable(chartData);
+
+    return new Tabulator(document.getElementById("table"), {
+    data: table.tableData, //assign data to table
+    layout: "fitColumns",
+    columns: table.columns,
+    headerVisible: false,
+    cellEdited: function(cell){
+      const row = cell.getData()[''];
+      const col = getColumnIndex(cell.getColumn().getField());
+      const value = cell.getValue();
+      updateCellCallback(row, col, value);
+    },
+  });  
+}
+
+function refreshTableData(table, tableAttr) {
+  table.setColumns(tableAttr.columns);
+  table.replaceData(tableAttr.tableData);
+}
+
+export default defineComponent({
+  name: "data-table",
+  setup() {
+    const store = useStore();
+
+    const updateCellCallback = function(row, col, value) {
+      store.dispatch('updateChartData', {row, col, value});  
+    }
+
 
     onMounted(() => {
-      new Tabulator(document.getElementById("table"), {
-        data: reactive(tableData), //assign data to table
-        layout:"fitColumns",
-        columns,
-        cellEdited: function(cell){//cell - cell component
-          // console.log('col', getColumnIndex(cell.getColumn().getField()))
-          // console.log('row', cell.getData()[''])
-          // console.log(cell)
-          const row = cell.getData()[''];
-          const col = getColumnIndex(cell.getColumn().getField());
-          const value = cell.getValue();
-          const newData = Object.assign([], inputData);
-          newData[row + 1][col + 1] = parseInt(value);
-          store.dispatch('setInputData', newData);
-        },
-        // autoColumns: true, //create columns from data field names
+      const table = initTable(store.getters.chartData, updateCellCallback);
+
+      watchEffect(() => {
+        refreshTableData(table, getTable(store.getters.chartData));
       });
     });
   }
@@ -60,6 +78,6 @@ export default defineComponent({
 
 <style>
 #table {
-  width: 800px;
+    width: 800px;
 }
 </style>

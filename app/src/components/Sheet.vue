@@ -1,12 +1,16 @@
 <template>
     <div>
         <!-- <div id="drop">Drop a file here</div> -->
-        <input type="file" id="file" />
+        <input style="display: none;" type="file" id="file" ref="file"/>
+        <el-button size="small" type="primary" @click="$refs.file.click()">Click to upload</el-button>
+        <p v-if="fileUpload.file">File: {{fileUpload.file.name}}</p>
+        <p v-else>No file chosen</p>
+        <hr>
     </div>
 </template>
 
 <script>
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, reactive } from "vue";
 import { useStore } from "vuex";
 import XLSX from "xlsx";
 
@@ -42,35 +46,43 @@ export default defineComponent({
     components: {},
     setup() {
         const store = useStore();
+        const fileUpload = reactive({file:null});
+
+        const handleFile = function (e) {
+            const file = e.target.files[0];
+            fileUpload.file = file
+            if (!file) {
+                return;
+            }            
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = e.target.result;
+                const workBook = XLSX.read(data, { type: "binary" });
+                const fileData = to_json(workBook);
+                const sheets = [];
+                for (let sheet in fileData) {
+                    sheets.push(sheet);
+                }
+                store.dispatch("setSheets", sheets);
+                store.dispatch("setFileData", fileData);
+            };
+            reader.readAsBinaryString(file);
+            console.log(fileUpload)
+        };
 
         onMounted(() => {
             // const dropDiv = document.getElementById("drop");
             const fileDiv = document.getElementById("file");
 
-            const handleFile = function (e) {
-                const file = e.target.files[0];
-                if (!file) {
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const data = e.target.result;
-                    const workBook = XLSX.read(data, { type: "binary" });
-                    const fileData = to_json(workBook);                    
-                    const sheets = [];
-                    for (let sheet in fileData) {
-                        sheets.push(sheet);
-                    }
-                    store.dispatch("setSheets", sheets);
-                    store.dispatch("setFileData", fileData);
-                };
-                reader.readAsBinaryString(file);
-            };
             // dropDiv.addEventListener('dragenter', handleDragenter, false);
             // dropDiv.addEventListener('dragover', handleDragover, false);
             // dropDiv.addEventListener("drop", handleDrop, false);
             fileDiv.addEventListener("change", handleFile, false);
         });
+
+        return {
+            fileUpload
+        };
     },
 });
 </script>

@@ -25,24 +25,6 @@
                     </select>
                 </div>
                 <div>
-                    <label>fontWeight:</label>
-                    <select v-model="model.xAxis.nameTextStyle.fontWeight">
-                        <option>normal</option>
-                        <option>bold</option>
-                        <!-- <option>bolder</option> -->
-                        <option>lighter</option>
-                    </select>
-                </div>
-                <div>
-                    <label>size:</label>
-                    <input
-                        type="number"
-                        v-model="model.xAxis.nameTextStyle.fontSize"
-                        min="1"
-                        max="100"
-                    />
-                </div>
-                <div>
                     <label>gap:</label>
                     <input
                         type="number"
@@ -51,6 +33,7 @@
                         max="50"
                     />
                 </div>
+                <FontStyle :text-style="model.xAxis.nameTextStyle"></FontStyle>
             </div>
 
             <div>
@@ -67,8 +50,17 @@
                         <option>end</option>
                     </select>
                 </div>
+                <div>
+                    <label>gap:</label>
+                    <input
+                        type="number"
+                        v-model="model.yAxis.nameGap"
+                        min="0"
+                        max="50"
+                    />
+                </div>
+                <FontStyle :text-style="model.yAxis.nameTextStyle"></FontStyle>
             </div>
-
             <div>
                 <h2>Series:</h2>
                 <div v-for="(item, index) in model.series" :key="index">
@@ -90,8 +82,13 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 
+import FontStyle from "./FontStyle.vue";
+
 export default defineComponent({
     name: "menu-panel",
+    components: {
+        FontStyle,
+    },
     setup() {
         const store = useStore();
         const option = store.getters.option;

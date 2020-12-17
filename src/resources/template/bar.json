@@ -14,9 +14,18 @@
         "nameGap": 25,
         "nameTextStyle": {
             "fontWeight":"normal",
+            "fontStyle": "normal",
             "fontSize": 12
         }
     },
-    "yAxis": {},
+    "yAxis": {
+        "nameLocation": "end",
+        "nameGap": 15,  
+        "nameTextStyle": {
+            "fontWeight":"normal",
+            "fontStyle": "normal",
+            "fontSize": 12
+        }
+    },
     "series": []
 }

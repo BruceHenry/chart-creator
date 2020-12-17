@@ -1,0 +1,22 @@
+{
+    "title": {
+        "text": ""
+    },
+    "tooltip": {},
+    "legend": {
+        "data": [],
+        "show": true,
+        "selectedMode": true
+    },
+    "xAxis": {
+        "data": [],
+        "nameLocation": "end",
+        "nameGap": 25,
+        "nameTextStyle": {
+            "fontWeight":"normal",
+            "fontSize": 12
+        }
+    },
+    "yAxis": {},
+    "series": []
+}

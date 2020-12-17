@@ -1,0 +1,37 @@
+{
+    "title": {
+        "text": "Example Title"
+    },
+    "tooltip": {},
+    "legend": {
+        "data": [
+            "Category A",
+            "Category B"
+        ],
+        "show": true,
+        "selectedMode": true
+    },
+    "xAxis": {
+        "data": [
+            "AAA",
+            "BBB",
+            "CCC",
+            "DDD",
+            "EEE",
+            "FFF"
+        ]
+    },
+    "yAxis": {},
+    "series": [
+        {
+            "name": "Category A",            
+            "type": "bar",
+            "data": [5,20,36,10,10,20]
+        },
+        {
+            "name": "Category B",
+            "type": "bar",
+            "data": [15,10,26,15,15,22]
+        }
+    ]
+}

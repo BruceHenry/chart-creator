@@ -1,23 +1,55 @@
 {
-  "name": "chart-builder",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "install": "(cd ./app && npm install)",
-    "start": "(npm run build --prefix ./app) && (node server.js)"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "express": "^4.14.0"
+    "core-js": "^3.6.5",
+    "echarts": "^4.9.0",
+    "element-plus": "^1.0.1-beta.5",
+    "tabulator-tables": "^4.8.4",
+    "vue": "^3.0.3",
+    "vue-class-component": "^8.0.0-0",
+    "vue-template-compiler": "^2.0.0",
+    "vuex": "^4.0.0-rc.1",
+    "xlsx": "^0.16.9"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BruceHenry/chart-builder.git"
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-typescript": "^4.5.8",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.3",
+    "@vue/eslint-config-typescript": "^5.0.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0-0",
+    "typescript": "~3.9.3"
   },
-  "author": "Han Bao",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/BruceHenry/chart-builder/issues"
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended",
+      "@vue/typescript"
+    ],
+    "parserOptions": {
+      "parser": "@typescript-eslint/parser"
+    },
+    "rules": {}
   },
-  "homepage": "https://github.com/BruceHenry/chart-builder#readme"
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

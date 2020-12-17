@@ -1,4 +1,5 @@
-# app
+# Chart Creator
+A chart-generating tool. Implemented using **Vue 3** and **ECharts**. See the demo [**here**](https://brucehenry.github.io/chart-creator/).
 
 ## Project setup
 ```

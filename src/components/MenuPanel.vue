@@ -2,18 +2,52 @@
     <div id="menu-container">
         <form>
             <div>
-                <label>Title:</label>
-                <input v-model="model.title.text" type="text" />
+                <h2>Title:</h2>
+                <div>
+                    <label>Text:</label>
+                    <input type="text" v-model="model.title.text" />
+                </div>
+                <!-- <div>
+                    <label>subText:</label>
+                    <input v-model="model.title.subtext" type="text" />
+                </div> -->
+                <div>
+                    <label>Show:</label>
+                    <input type="checkbox" v-model="model.title.show" />
+                </div>
+                <div>
+                    <label>Horizontal Location:</label>
+                    <select v-model="model.title.left">
+                        <option>left</option>
+                        <option>center</option>
+                        <option>right</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Vertival Location:</label>
+                    <select v-model="model.title.top">
+                        <option>top</option>
+                        <option>middle</option>
+                        <option>bottom</option>
+                    </select>
+                </div>
+                <FontStyle :text-style="model.title.textStyle"></FontStyle>
             </div>
             <div>
-                <label>Legend:</label>
-                <input type="checkbox" v-model="model.legend.show" />
+                <h2>Legend:</h2>
+                <div>
+                    <label>Show:</label>
+                    <input type="checkbox" v-model="model.legend.show" />
+                </div>
+                <div>
+                    <FontStyle :text-style="model.legend.textStyle"></FontStyle>
+                </div>
             </div>
 
             <div>
                 <h2>X Axis:</h2>
                 <div>
-                    <label>Name:</label>
+                    <label>Text:</label>
                     <input type="text" v-model="model.xAxis.name" />
                 </div>
                 <div>
@@ -39,7 +73,7 @@
             <div>
                 <h2>Y Axis:</h2>
                 <div>
-                    <label>Name:</label>
+                    <label>Text:</label>
                     <input type="text" v-model="model.yAxis.name" />
                 </div>
                 <div>

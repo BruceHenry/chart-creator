@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <label>Font:</label>
+            <label><b>Font: </b></label>
             <el-input-number
                 style="margin-right: 10px"
                 v-model="style.fontSize"
@@ -11,19 +11,15 @@
             ></el-input-number>
             <el-button
                 title="Bold"
-                circle
-                style="width: 40px"
+                style="width: 35px; padding: 8px"
                 :type="style.fontWeight == 'normal' ? 'default' : 'info'"
-                :plain="style.fontWeight == 'normal'"
                 @click="toggleFontWeight(style)"
                 >B</el-button
             >
             <el-button
                 title="Italic"
-                circle
-                style="width: 40px"
+                style="width: 35px; padding: 8px"
                 :type="style.fontStyle == 'normal' ? 'default' : 'info'"
-                :plain="style.fontStyle == 'normal'"
                 @click="toggleFontStyle(style)"
                 >I</el-button
             >

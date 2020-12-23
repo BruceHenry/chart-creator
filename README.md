@@ -1,7 +1,10 @@
 # Chart Creator
-A chart-generating tool. Implemented using **Vue 3** and **ECharts**. See the demo [**here**](https://brucehenry.github.io/chart-creator/).
+A open source chart-generating tool powered by **Vue 3** and **ECharts**. 
+
+See the demo here, [https://brucehenry.github.io/chart-creator/](https://brucehenry.github.io/chart-creator/).
 
 ## Project setup
+Install dependencies
 ```
 npm install
 ```
@@ -10,7 +13,7 @@ npm install
 ```
 npm run serve
 ```
-Or use python: 
+Or use python to start a local HTTP server (on port 80): 
 ```
 python -m http.server 80 --directory ./dist
 ```
@@ -24,6 +27,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

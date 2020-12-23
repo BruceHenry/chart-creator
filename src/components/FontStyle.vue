@@ -46,7 +46,7 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from "vue";
+import { defineComponent} from "vue";
 
 export default defineComponent({
     name: "font-style",
@@ -54,6 +54,11 @@ export default defineComponent({
         textStyle: {
             type: Object,
             required: true
+        }
+    },
+    watch: {
+        textStyle(newValue) {
+            this.style = newValue;
         }
     },
     setup(props) {
@@ -90,7 +95,7 @@ export default defineComponent({
         };
 
         return {
-            style:props.textStyle,
+            style: props.textStyle,
             toggleFontWeight,
             toggleFontStyle,
             blurHtml

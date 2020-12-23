@@ -35,8 +35,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    const option = store.getters.option;
-
     const afterClearCallback = function () {
       store.dispatch('turnOffClear');
     }
@@ -45,7 +43,7 @@ export default defineComponent({
 
     onMounted(() => {
       myChart = echarts.init(document.getElementById("echarts"));
-      myChart.setOption(option);
+      myChart.setOption(store.getters.option);
 
       watchEffect(() => {        
         updateChart(myChart, store.getters.option, afterClearCallback);

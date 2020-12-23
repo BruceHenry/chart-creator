@@ -69,7 +69,6 @@ export default defineComponent({
                 store.dispatch("setFileData", fileData);
             };
             reader.readAsBinaryString(file);
-            console.log(fileUpload)
         };
 
         onMounted(() => {

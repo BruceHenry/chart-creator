@@ -1,13 +1,19 @@
 <template>
     <div>
         <!-- <div id="drop">Drop a file here</div> -->
-        <input style="display: none;" type="file" id="file" ref="file"/>
+        <input style="display: none" type="file" id="file" ref="file" />
         <div>
-            <el-button size="small" type="primary" @click="$refs.file.click()">Click to upload</el-button>
-            <span v-if="fileUpload.file">File: {{fileUpload.file.name}}</span>
-            <span v-else>No file chosen</span>
+            <el-button size="small" type="primary" @click="$refs.file.click()">
+                Upload File
+            </el-button>
+            <div>
+                <span v-if="fileUpload.file">
+                    File: {{ fileUpload.file.name }}
+                </span>
+                <span v-else>No file chosen (Support xls/xlsx/csv format)</span>
+            </div>
         </div>
-        <hr>
+        <hr />
     </div>
 </template>
 
@@ -48,14 +54,14 @@ export default defineComponent({
     components: {},
     setup() {
         const store = useStore();
-        const fileUpload = reactive({file:null});
+        const fileUpload = reactive({ file: null });
 
         const handleFile = function (e) {
             const file = e.target.files[0];
-            fileUpload.file = file
+            fileUpload.file = file;
             if (!file) {
                 return;
-            }            
+            }
             const reader = new FileReader();
             reader.onload = function (e) {
                 const data = e.target.result;
@@ -82,7 +88,7 @@ export default defineComponent({
         });
 
         return {
-            fileUpload
+            fileUpload,
         };
     },
 });

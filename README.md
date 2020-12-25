@@ -1,5 +1,5 @@
 # Chart Creator
-A open source chart-generating tool powered by **Vue 3** and **ECharts**. 
+A chart tool powered by **Vue 3** and **ECharts**. Easily generate chart from xlsx/csv file, and customize chart style.
 
 See the demo here, [https://brucehenry.github.io/chart-creator/](https://brucehenry.github.io/chart-creator/).
 
@@ -13,9 +13,9 @@ npm install
 ```
 npm run serve
 ```
-Or use python to start a local HTTP server (on port 80): 
+Or use python to start a local HTTP server (for example on localhost:8080): 
 ```
-python -m http.server 80 --directory ./dist
+python -m http.server 8080 --directory ./dist
 ```
 
 ### Compiles and minifies for production

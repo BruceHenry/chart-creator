@@ -77,7 +77,4 @@ export default defineComponent({
 </script>
 
 <style>
-#table {
-    width: 800px;
-}
 </style>

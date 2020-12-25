@@ -135,10 +135,4 @@ export default defineComponent({
 </script>
 
 <style>
-#menu-container {
-    width: 600px;
-    /* height: 300px; */
-    background-color: beige;
-    align-content: left;
-}
 </style>

@@ -55,7 +55,7 @@ export default defineComponent({
 
 <style>
 #echarts {
-  width: 800px;
+  width: 750px;
   height: 600px;
 }
 </style>

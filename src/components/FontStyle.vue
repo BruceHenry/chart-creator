@@ -1,47 +1,31 @@
 <template>
     <div>
-        <div>
-            <label><b>Font: </b></label>
-            <el-input-number
-                style="margin-right: 10px"
-                v-model="style.fontSize"
-                :min="1"
-                :max="100"
-                size="small"
-            ></el-input-number>
-            <el-button
-                title="Bold"
-                style="width: 35px; padding: 8px"
-                :type="style.fontWeight == 'normal' ? 'default' : 'info'"
-                @click="toggleFontWeight(style)"
-                >B</el-button
-            >
-            <el-button
-                title="Italic"
-                style="width: 35px; padding: 8px"
-                :type="style.fontStyle == 'normal' ? 'default' : 'info'"
-                @click="toggleFontStyle(style)"
-                >I</el-button
-            >
+        <div  id="font-style-container">
+            <label id="font-style-label">Font</label>
+            <span  id="font-style-input">
+                <el-input-number
+                    style="margin-right: 10px"
+                    v-model="style.fontSize"
+                    :min="1"
+                    :max="100"
+                    size="small"
+                ></el-input-number>
+                <el-button
+                    title="Bold"
+                    style="width: 35px; padding: 8px"
+                    :type="style.fontWeight == 'normal' ? 'default' : 'info'"
+                    @click="toggleFontWeight(style)"
+                    >B</el-button
+                >
+                <el-button
+                    title="Italic"
+                    style="width: 35px; padding: 8px"
+                    :type="style.fontStyle == 'normal' ? 'default' : 'info'"
+                    @click="toggleFontStyle(style)"
+                    >I</el-button
+                >
+            </span>
         </div>
-        <!-- <div>
-            <label>fontWeight:</label>
-            <select v-model="style.fontWeight">
-                <option>normal</option>
-                <option>bold</option>
-            </select>
-        </div>
-        <div>
-            <label>Italic:</label>
-            <select v-model="style.fontStyle">
-                <option>normal</option>
-                <option>italic</option>
-            </select>
-        </div>
-        <div>
-            <label>size:</label>
-            <input type="number" v-model="style.fontSize" min="1" max="100" />
-        </div> -->
     </div>
 </template>
 
@@ -105,4 +89,16 @@ export default defineComponent({
 </script>
 
 <style>
+#font-style-container {
+    width: 500px;
+    margin: 5px;
+    padding: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#font-style-input {
+    width: 300px !important;
+}
 </style>

@@ -1,8 +1,10 @@
 <template>
     <div>
-        <div  id="font-style-container">
-            <label id="font-style-label">Font</label>
-            <span  id="font-style-input">
+        <div id="font-style-container">
+            <label id="font-style-label">
+                {{ displayLabel === undefined ? "Font" : displayLabel }}
+            </label>
+            <span id="font-style-input">
                 <el-input-number
                     style="margin-right: 10px"
                     v-model="style.fontSize"
@@ -38,6 +40,9 @@ export default defineComponent({
         textStyle: {
             type: Object,
             required: true
+        },
+        label: {
+            type: String
         }
     },
     watch: {
@@ -80,6 +85,7 @@ export default defineComponent({
 
         return {
             style: props.textStyle,
+            displayLabel: props.label,
             toggleFontWeight,
             toggleFontStyle,
             blurHtml
@@ -100,5 +106,9 @@ export default defineComponent({
 }
 #font-style-input {
     width: 300px !important;
+}
+#font-style-label {
+    font-size: 13px !important;
+    font-weight: bold !important;
 }
 </style>

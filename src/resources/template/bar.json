@@ -5,7 +5,7 @@
         "left": "left",
         "top": "top",
         "textStyle": {
-            "fontWeight":"bold",
+            "fontWeight": "bold",
             "fontStyle": "normal",
             "fontSize": 18
         }
@@ -16,7 +16,7 @@
         "show": true,
         "selectedMode": true,
         "textStyle": {
-            "fontWeight":"normal",
+            "fontWeight": "normal",
             "fontStyle": "normal",
             "fontSize": 12
         }
@@ -26,18 +26,48 @@
         "nameLocation": "end",
         "nameGap": 25,
         "nameTextStyle": {
-            "fontWeight":"normal",
+            "fontWeight": "normal",
             "fontStyle": "normal",
             "fontSize": 12
+        },
+        "axisLabel": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12,
+            "margin": 8
+        },
+        "axisTick": {
+            "show": true,
+            "inside": false,
+            "length": 5
+        },
+        "axisPointer": {
+            "show": false,
+            "type": "shadow"
         }
     },
     "yAxis": {
         "nameLocation": "end",
-        "nameGap": 15,  
+        "nameGap": 15,
         "nameTextStyle": {
-            "fontWeight":"normal",
+            "fontWeight": "normal",
             "fontStyle": "normal",
             "fontSize": 12
+        },
+        "axisLabel": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12,
+            "margin": 8
+        },
+        "axisTick": {
+            "show": true,
+            "inside": false,
+            "length": 5
+        },
+        "axisPointer": {
+            "show": false,
+            "type": "line"
         }
     },
     "series": []

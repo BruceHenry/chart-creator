@@ -59,8 +59,16 @@ export default defineComponent({
     flex-flow: row wrap;
     justify-content: center;
 }
+
+@media (max-width: 830px) {
+    #main-container {
+        justify-content: start;
+    }
+}
+
 .sub-container {
     height: 95vh;
+    min-height: 60vh;
     margin: 5px;
     overflow: auto;
 }
@@ -74,6 +82,7 @@ export default defineComponent({
 
 #chart-container {
     width: 780px;
+    min-width: 780px;
 }
 #data-container {
     width: 650px;

@@ -51,7 +51,7 @@ export const store = createStore({
         },
         setFileData({commit, dispatch, state}, fileData) {
             commit('setFileData', fileData);
-            dispatch('setChartData', fileData[state.sheets[0]])            
+            dispatch('setChartData', fileData[state.sheets[0]]);
         },
         setSheets({commit}, sheets) {
             commit('setSheets', sheets);

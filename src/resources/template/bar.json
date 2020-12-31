@@ -4,6 +4,7 @@
         "show": true,
         "left": "left",
         "top": "top",
+        "padding": 5,
         "textStyle": {
             "fontWeight": "bold",
             "fontStyle": "normal",
@@ -15,6 +16,13 @@
         "data": [],
         "show": true,
         "selectedMode": true,
+        "left": "center",
+        "top": "top",
+        "icon": "roundRect",
+        "padding": 5,
+        "itemGap": 10.5,
+        "itemWidth": 25.5,
+        "itemHeight": 14.5,
         "textStyle": {
             "fontWeight": "normal",
             "fontStyle": "normal",

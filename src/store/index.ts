@@ -3,17 +3,24 @@ import { generateOption, updateOption } from '../utils/input'
 
 const chartData: any[] = [];
 const option:any = {};
+const sheetNames: any[] = [];
+const fileData:any = {};
 
 export const store = createStore({
     state: {
         chartData,
         option,
-        fileData:{},
-        sheets:[]
+        fileData,
+        sheetNames
+    },
+    getters: {
+        option: (state) => state.option,
+        chartData: (state) => state.chartData,
+        fileData: (state) => state.fileData,
+        sheetNames: (state) => state.sheetNames
     },
     mutations: {
         setOption(state, option) {
-            //To-do: redundant attribute of state.option should be removed (merge object)
             Object.assign(state.option, option);
         },
         setChartData(state, chartData) {
@@ -25,15 +32,12 @@ export const store = createStore({
         setFileData(state, fileData) {
             state.fileData = fileData;
         },
-        setSheets(state, sheets) {
-            state.sheets = sheets;
+        setSheetNames(state, sheetNames) {
+            state.sheetNames.length = 0;
+            for (let i in sheetNames) {
+                state.sheetNames.push(sheetNames[i]);
+            }
         }
-    },
-    getters: {
-        option: (state) => state.option,
-        chartData: (state) => state.chartData,
-        fileData: (state) => state.fileData,
-        sheets: (state) => state.sheets,
     },
     actions: {
         setOption({commit}, option) {
@@ -49,12 +53,15 @@ export const store = createStore({
             state.chartData[row][col] = value;
             updateOption(state.option, {row, col, value});
         },
-        setFileData({commit, dispatch, state}, fileData) {
+        setFileData({commit, dispatch, state}, {fileData, sheetName}) {
             commit('setFileData', fileData);
-            dispatch('setChartData', fileData[state.sheets[0]]);
+            dispatch('setChartData', fileData[sheetName]);
         },
-        setSheets({commit}, sheets) {
-            commit('setSheets', sheets);
+        updateSheet({commit, dispatch, state}, sheetName) {
+            dispatch('setChartData', state.fileData[sheetName]);
+        },
+        setSheetNames({commit}, sheetNames) {
+            commit('setSheetNames', sheetNames);
         },
         turnOffClear({commit, state}) {
             state.option.clearFlag = false;

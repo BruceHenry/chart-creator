@@ -4,21 +4,41 @@
         <input style="display: none" type="file" id="file" ref="file" />
         <div>
             <el-button size="small" type="primary" @click="$refs.file.click()">
-                Upload File
+                Open File
             </el-button>
-            <div>
-                <span v-if="fileUpload.file">
-                    File: {{ fileUpload.file.name }}
-                </span>
-                <span v-else>No file chosen (Support xls/xlsx/csv format)</span>
-            </div>
+            <span v-if="fileUpload.file">
+                File: {{ fileUpload.file.name }}
+            </span>
+            <span v-else>No file chosen (Support xls/xlsx/csv format)</span>
         </div>
-        <hr />
+        <div v-if="sheetNames.length" id="sheet-selector">
+            <label>Select Sheet: </label>
+            <el-select
+                v-model="selectedSheet"
+                id="selectedSheet"
+                @change="sheetOnChange"
+                v-if="sheetNames.length"
+            >
+                <el-option
+                    v-for="item in sheetNames"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                ></el-option>
+            </el-select>
+        </div>
     </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive } from "vue";
+import {
+    defineComponent,
+    nextTick,
+    onMounted,
+    reactive,
+    watchEffect,
+} from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 import XLSX from "xlsx";
 
@@ -54,6 +74,8 @@ export default defineComponent({
     components: {},
     setup() {
         const store = useStore();
+
+        let selectedSheet = ref(store.getters.sheetNames[0]);
         const fileUpload = reactive({ file: null });
 
         const handleFile = function (e) {
@@ -67,14 +89,21 @@ export default defineComponent({
                 const data = e.target.result;
                 const workBook = XLSX.read(data, { type: "binary" });
                 const fileData = to_json(workBook);
-                const sheets = [];
-                for (let sheet in fileData) {
-                    sheets.push(sheet);
+                const sheetNames = [];
+                for (let sheetName in fileData) {
+                    sheetNames.push(sheetName);
                 }
-                store.dispatch("setSheets", sheets);
-                store.dispatch("setFileData", fileData);
+                store.dispatch("setSheetNames", sheetNames);
+                store.dispatch("setFileData", {
+                    fileData,
+                    sheetName: sheetNames[0],
+                });
             };
             reader.readAsBinaryString(file);
+        };
+
+        const sheetOnChange = () => {
+            store.dispatch('updateSheet', selectedSheet.value);
         };
 
         onMounted(() => {
@@ -85,16 +114,32 @@ export default defineComponent({
             // dropDiv.addEventListener('dragover', handleDragover, false);
             // dropDiv.addEventListener("drop", handleDrop, false);
             fileDiv.addEventListener("change", handleFile, false);
+
+            watchEffect(async () => {
+                //this log is needed to trigger watchEffect()
+                console.info("open first sheet by default, sheet name:", store.getters.sheetNames[0]);
+                if (store.getters.sheetNames[0]) {
+                    await nextTick();
+                    document.getElementById("selectedSheet").value =
+                        store.getters.sheetNames[0];
+                }
+            });
         });
 
         return {
             fileUpload,
+            selectedSheet,
+            sheetNames: store.getters.sheetNames,
+            sheetOnChange,
         };
     },
 });
 </script>
 
 <style>
+#sheet-selector {
+    margin: 10px 0;
+}
 #drop {
     border: 2px dashed #bbb;
     -moz-border-radius: 5px;

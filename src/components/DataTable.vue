@@ -77,4 +77,7 @@ export default defineComponent({
 </script>
 
 <style>
+#table {
+  margin-top: 10px;
+}
 </style>

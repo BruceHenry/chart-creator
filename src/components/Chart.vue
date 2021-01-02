@@ -14,6 +14,7 @@ import { defineComponent, onMounted, watchEffect } from "vue"
 import { useStore } from 'vuex'
 
 function updateChart(myChart, option, afterClearCallback) {
+  console.log("updateChart", option)
   try {
     if (option.clearFlag) {
       myChart.clear();
@@ -37,7 +38,7 @@ export default defineComponent({
 
     const afterClearCallback = function () {
       store.dispatch('turnOffClear');
-    }
+    };
 
     let myChart = {};
 

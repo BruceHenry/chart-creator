@@ -9,10 +9,10 @@ import { useStore } from 'vuex'
 import Tabulator from 'tabulator-tables'
 import "tabulator-tables/dist/css/tabulator.min.css"
 
-import { getColumnTitle, getColumnIndex, getMaxLength, getData } from "../utils/table";
+import { getColumnTitle, getColumnIndex, getMaxLength, copyData } from "../utils/table";
 
 function getTable(chartData) {
-    const data = getData(chartData);
+    const data = copyData(chartData);
 
     const maxLength = getMaxLength(data);
 
@@ -66,10 +66,10 @@ export default defineComponent({
 
 
     onMounted(() => {
-      const table = initTable(store.getters.chartData, updateCellCallback);
+      const table = initTable(store.getters.option.dataset.source, updateCellCallback);
 
       watchEffect(() => {
-        refreshTableData(table, getTable(store.getters.chartData));
+        refreshTableData(table, getTable(store.getters.option.dataset.source));
       });
     });
   }

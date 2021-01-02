@@ -94,16 +94,14 @@ export default defineComponent({
                     sheetNames.push(sheetName);
                 }
                 store.dispatch("setSheetNames", sheetNames);
-                store.dispatch("setFileData", {
-                    fileData,
-                    sheetName: sheetNames[0],
-                });
+                store.dispatch("setFileData", fileData);
+                store.dispatch("setSheet", sheetNames[0]);
             };
             reader.readAsBinaryString(file);
         };
 
         const sheetOnChange = () => {
-            store.dispatch('updateSheet', selectedSheet.value);
+            store.dispatch('setSheet', selectedSheet.value);
         };
 
         onMounted(() => {
@@ -116,8 +114,7 @@ export default defineComponent({
             fileDiv.addEventListener("change", handleFile, false);
 
             watchEffect(async () => {
-                //this log is needed to trigger watchEffect()
-                console.info("open first sheet by default, sheet name:", store.getters.sheetNames[0]);
+                //store.getters.sheetNames[0] must be accessed to trigger watchEffect()
                 if (store.getters.sheetNames[0]) {
                     await nextTick();
                     document.getElementById("selectedSheet").value =

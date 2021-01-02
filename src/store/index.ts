@@ -1,33 +1,24 @@
 import { createStore } from 'vuex';
-import { generateOption, updateOption } from '../utils/input'
+import { generateOptionWithDataset, updateOptionWithDataset } from '../utils/input'
 
-const chartData: any[] = [];
 const option:any = {};
 const sheetNames: any[] = [];
 const fileData:any = {};
 
 export const store = createStore({
     state: {
-        chartData,
         option,
         fileData,
         sheetNames
     },
     getters: {
         option: (state) => state.option,
-        chartData: (state) => state.chartData,
         fileData: (state) => state.fileData,
         sheetNames: (state) => state.sheetNames
     },
     mutations: {
         setOption(state, option) {
             Object.assign(state.option, option);
-        },
-        setChartData(state, chartData) {
-            state.chartData = chartData;
-        },
-        updateChartData(state, {row, col, value}) {
-            state.chartData[row][col] = value;
         },
         setFileData(state, fileData) {
             state.fileData = fileData;
@@ -44,20 +35,17 @@ export const store = createStore({
             commit('setOption', option);
         },
         setChartData({commit}, chartData) {
-            commit('setChartData', chartData);
-            const option = generateOption(chartData);
+            const option = generateOptionWithDataset(chartData);
             option.clearFlag = true;
             commit('setOption', option);
         },
         updateChartData({commit, state}, {row, col, value}) {
-            state.chartData[row][col] = value;
-            updateOption(state.option, {row, col, value});
+            updateOptionWithDataset(state.option, {row, col, value});
         },
-        setFileData({commit, dispatch, state}, {fileData, sheetName}) {
+        setFileData({commit, dispatch, state}, fileData) {
             commit('setFileData', fileData);
-            dispatch('setChartData', fileData[sheetName]);
         },
-        updateSheet({commit, dispatch, state}, sheetName) {
+        setSheet({commit, dispatch, state}, sheetName) {
             dispatch('setChartData', state.fileData[sheetName]);
         },
         setSheetNames({commit}, sheetNames) {

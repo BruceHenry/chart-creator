@@ -33,7 +33,7 @@ export const getMaxLength = function (arrays) {
     return max;
 };
 
-export const getData = function(inputData) {
+export const copyData = function(inputData) {
     const data = [];
     for (let i = 0; i < inputData.length; i++) {
         var row = [];

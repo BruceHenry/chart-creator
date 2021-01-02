@@ -8,47 +8,78 @@ export const getDefaultColor = function (index) {
     return defaultColors[index];
 }
 
-export const generateOption = function (inputData) {
-    let outputJson = JSON.parse(JSON.stringify(barChartTemplate));
+export const generateOptionWithDataset = function (inputData) {
+    const outputJson = JSON.parse(JSON.stringify(barChartTemplate));
+    outputJson.dataset.source = inputData;
+
     //xAxis
-    for (let i = 1; i < inputData[0].length; i++) {
-        outputJson.xAxis.data.push(inputData[0][i]);
-    }
+    delete outputJson.xAxis.data;
 
     //series
-    const legends = outputJson.legend.data;
     for (let row = 1; row < inputData.length; row++) {
-        legends.push(inputData[row][0]);
-        let outputSeries = {
-            type: 'bar',
-            data: [],
-            itemStyle: {}
-        };
-        outputJson.series.push(outputSeries);
-        outputSeries.name = inputData[row][0];
-        outputSeries.itemStyle.color = getDefaultColor(row - 1);
-        for (let col = 1; col < inputData[row].length; col++) {
-            outputSeries.data.push(inputData[row][col]);
-        }
+        let seriesTemplate = { type: 'bar', seriesLayoutBy: 'row', itemStyle: {} };
+        seriesTemplate.name = inputData[row][0];
+        seriesTemplate.itemStyle.color = getDefaultColor(row - 1);
+        outputJson.series.push(seriesTemplate);
     }
     return outputJson;
 }
 
-export const updateOption = function (option, {row, col, value}) {
+export const updateOptionWithDataset = function (option, { row, col, value }) {
     if (row === 0 && col === 0) {
         return;
     }
-    else if (row === 0) {// xAxis name
-        option.xAxis.data[col - 1] = value;
-    }
-    else if (col === 0) {// legend name and series name
-        option.legend.data[row - 1] = value;
+    if (col === 0) {
         option.series[row - 1].name = value;
     }
-    else {
-        option.series[row - 1].data[col - 1] = value;
-    }
+    option.dataset.source[row][col] = value;
 }
+
+// export const generateOption = function (inputData) {
+//     const outputJson = JSON.parse(JSON.stringify(barChartTemplate));
+
+
+//     //xAxis
+//     for (let i = 1; i < inputData[0].length; i++) {
+//         outputJson.xAxis.data.push(inputData[0][i]);
+//     }
+
+//     //series
+//     const legends = []
+//     outputJson.legend.data = legends;
+//     for (let row = 1; row < inputData.length; row++) {
+//         legends.push(inputData[row][0]);
+//         let seriesTemplate = {
+//             type: 'bar',
+//             data: [],
+//             itemStyle: {}
+//         };
+//         outputJson.series.push(seriesTemplate);
+//         seriesTemplate.name = inputData[row][0];
+//         seriesTemplate.itemStyle.color = getDefaultColor(row - 1);
+//         for (let col = 1; col < inputData[row].length; col++) {
+//             seriesTemplate.data.push(inputData[row][col]);
+//         }
+//     }
+//     console.log(outputJson)
+//     return outputJson;
+// }
+
+// export const updateOption = function (option, {row, col, value}) {
+//     if (row === 0 && col === 0) {
+//         return;
+//     }
+//     else if (row === 0) {// xAxis name
+//         option.xAxis.data[col - 1] = value;
+//     }
+//     else if (col === 0) {// legend name and series name
+//         option.legend.data[row - 1] = value;
+//         option.series[row - 1].name = value;
+//     }
+//     else {
+//         option.series[row - 1].data[col - 1] = value;
+//     }
+// }
 
 // function initInputJson(inputJson) {
 //   let outputJson = Object.assign({}, barChartTemplate);

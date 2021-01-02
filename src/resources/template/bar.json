@@ -11,9 +11,9 @@
             "fontSize": 18
         }
     },
+    "dataset": {},
     "tooltip": {},
     "legend": {
-        "data": [],
         "show": true,
         "selectedMode": true,
         "left": "center",
@@ -31,6 +31,7 @@
     },
     "xAxis": {
         "data": [],
+        "type": "category",
         "nameLocation": "end",
         "nameGap": 25,
         "nameTextStyle": {
@@ -55,6 +56,7 @@
         }
     },
     "yAxis": {
+        "type": "value",
         "nameLocation": "end",
         "nameGap": 15,
         "nameTextStyle": {

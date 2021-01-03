@@ -20,7 +20,7 @@
                 <MenuPanel></MenuPanel>
             </el-tab-pane>
             <el-tab-pane label="Data">
-                <Sheet></Sheet>
+                <FileUploader></FileUploader>
                 <DataTable></DataTable>
             </el-tab-pane>
         </el-tabs>
@@ -34,7 +34,7 @@ import { useStore } from "vuex";
 import Chart from "./Chart.vue";
 import MenuPanel from "./MenuPanel.vue";
 import DataTable from "./DataTable.vue";
-import Sheet from "./Sheet.vue";
+import FileUploader from "./FileUploader";
 
 import barData from "../resources/example/barData.json";
 
@@ -44,7 +44,7 @@ export default defineComponent({
         Chart,
         MenuPanel,
         DataTable,
-        Sheet,
+        FileUploader,
     },
     setup() {
         const store = useStore();

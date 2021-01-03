@@ -1,4 +1,26 @@
 {
+    "customization": {
+        "theme": "default",
+        "xAxisAs": "rows",
+        "barOrientation": "vertical",
+        "seriesOption": {
+            "showBackground": false,
+            "backgroundStyle": {
+                "color": "#B4B4B4"
+            },
+            "label": {
+                "show": false,
+                "position": "inside",
+                "distance": 5,
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "fontSize": 12
+            }
+        },
+        "forceClear": false,
+        "stack": false
+    },
+    "backgroundColor": "#FFFFFF",
     "title": {
         "text": "",
         "show": true,
@@ -11,7 +33,9 @@
             "fontSize": 18
         }
     },
-    "dataset": {},
+    "dataset": {
+        "sourceHeader": true
+    },
     "tooltip": {},
     "legend": {
         "show": true,

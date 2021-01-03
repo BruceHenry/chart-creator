@@ -1,13 +1,215 @@
 <template>
     <div>
         <form>
-            <el-collapse>
+            <el-collapse v-model="barSettings.menuStructure.global">
+                <!--Basics-->
+                <el-collapse-item name="Basics">
+                    <template #title>
+                        <span class="menu-header">Basics</span>
+                    </template>
+                    <div class="menu-container">
+                        <label class="menu-label">X Axis as</label>
+                        <el-select
+                            class="menu-input"
+                            v-model="model.customization.xAxisAs"
+                            @change="changeXAxisAs($event, model, colors)"
+                        >
+                            <el-option value="rows">rows</el-option>
+                            <el-option value="columns">columns</el-option>
+                        </el-select>
+                    </div>
+                    <div class="menu-container">
+                        <label class="menu-label">Stacked Bar</label>
+                        <el-switch
+                            class="menu-input"
+                            type="checkbox"
+                            v-model="model.customization.stack"
+                            @change="changeStack($event, model)"
+                        />
+                    </div>
+                    <div class="menu-container">
+                        <label class="menu-label">Bar Orientation</label>
+                        <el-select
+                            class="menu-input"
+                            v-model="model.customization.barOrientation"
+                            @change="changeBarOrientation($event, model)"
+                        >
+                            <el-option value="vertical">vertical</el-option>
+                            <el-option value="horizontal">horizontal</el-option>
+                        </el-select>
+                    </div>
+                    <el-collapse v-model="barSettings.menuStructure.basics">
+                        <el-collapse-item title="Label" name="Label">
+                            <div class="menu-container">
+                                <label class="menu-label">Show Label</label>
+                                <el-switch
+                                    class="menu-input"
+                                    type="checkbox"
+                                    v-model="
+                                        model.customization.seriesOption.label
+                                            .show
+                                    "
+                                    @change="changeSeries(model)"
+                                />
+                            </div>
+                            <div
+                                class="menu-container"
+                                v-if="
+                                    model.customization.seriesOption.label.show
+                                "
+                            >
+                                <label class="menu-label">Position</label>
+                                <span class="menu-input">
+                                    <el-select
+                                        class="menu-input"
+                                        v-model="
+                                            model.customization.seriesOption
+                                                .label.position
+                                        "
+                                        @change="changeSeries(model)"
+                                    >
+                                        <el-option
+                                            v-for="item in barSettings.labelPosition"
+                                            :key="item"
+                                            :label="item"
+                                            :value="item"
+                                        ></el-option>
+                                    </el-select>
+                                </span>
+                            </div>
+                            <div
+                                class="menu-container"
+                                v-if="
+                                    model.customization.seriesOption.label.show
+                                "
+                            >
+                                <label class="menu-label">Gap</label>
+                                <span class="menu-input">
+                                    <el-input-number
+                                        v-model="
+                                            model.customization.seriesOption
+                                                .label.distance
+                                        "
+                                        size="small"
+                                        :min="0"
+                                        :max="100"
+                                    />
+                                </span>
+                            </div>
+                            <FontStyle
+                                v-if="
+                                    model.customization.seriesOption.label.show
+                                "
+                                :text-style="
+                                    model.customization.seriesOption.label
+                                "
+                            ></FontStyle>
+                        </el-collapse-item>
+                        <el-collapse-item
+                            title="Bar Background"
+                            name="Bar Background"
+                        >
+                            <div class="menu-container">
+                                <label class="menu-label"
+                                    >Show Background</label
+                                >
+                                <el-switch
+                                    class="menu-input"
+                                    type="checkbox"
+                                    v-model="
+                                        model.customization.seriesOption
+                                            .showBackground
+                                    "
+                                    @change="changeSeries(model)"
+                                />
+                            </div>
+                            <div
+                                class="menu-container"
+                                v-if="
+                                    model.customization.seriesOption
+                                        .showBackground
+                                "
+                            >
+                                <label class="menu-label">Color</label>
+                                <span class="menu-input">
+                                    <input
+                                        v-model="
+                                            model.customization.seriesOption
+                                                .backgroundStyle.color
+                                        "
+                                        @input="changeSeries(model)"
+                                        type="color"
+                                    />
+                                </span>
+                            </div>
+                        </el-collapse-item>
+                    </el-collapse>
+                </el-collapse-item>
+
+                <!-- Color -->
+                <el-collapse-item>
+                    <template #title>
+                        <span class="menu-header">Color</span>
+                    </template>
+                    <div class="menu-container">
+                        <label class="menu-label">Theme</label>
+                        <el-select
+                            class="menu-input"
+                            v-model="model.customization.theme"
+                            @change="model.customization.forceClear = true"
+                        >
+                            <el-option
+                                v-for="item in barSettings.themes"
+                                :key="item"
+                                :label="item"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
+                    </div>
+                    <div class="menu-container">
+                        <label class="menu-label">Background Color</label>
+                        <span class="menu-input">
+                            <input
+                                v-model="model.backgroundColor"
+                                type="color"
+                            />
+                        </span>
+                    </div>
+                    <el-collapse v-model="barSettings.menuStructure.color">
+                        <el-collapse-item title="Bar Colors" name="Bar Colors">
+                            <div
+                                v-for="(item, index) in model.series"
+                                :key="index"
+                            >
+                                <div class="menu-container">
+                                    <label class="menu-label">{{
+                                        (index + 1) + ". " + item.name + ":"
+                                    }}</label>
+                                    <span class="menu-input">
+                                        <input
+                                            v-model="item.itemStyle.color"
+                                            type="color"
+                                            list="series-colors"
+                                        />
+                                    </span>
+                                </div>
+                            </div>
+                        </el-collapse-item>
+                    </el-collapse>
+
+                    <datalist id="series-colors">
+                        <option v-for="color in colors" :key="color">
+                            {{ color }}
+                        </option>
+                    </datalist>
+                </el-collapse-item>
+
                 <!--X Axis-->
                 <el-collapse-item>
                     <template #title>
                         <span class="menu-header">X Axis</span>
                     </template>
-                    <el-collapse v-model="menuStructure.xAxis">
+                    <el-collapse v-model="barSettings.menuStructure.xAxis">
                         <el-collapse-item title="Name" name="Name">
                             <div class="menu-container">
                                 <label class="menu-label">Text</label>
@@ -28,7 +230,7 @@
                                     v-model="model.xAxis.nameLocation"
                                 >
                                     <el-option
-                                        v-for="item in axisPosition"
+                                        v-for="item in barSettings.axisPosition"
                                         :key="item"
                                         :label="item"
                                         :value="item"
@@ -105,7 +307,7 @@
                     <template #title>
                         <span class="menu-header">Y Axis</span>
                     </template>
-                    <el-collapse v-model="menuStructure.yAxis">
+                    <el-collapse v-model="barSettings.menuStructure.yAxis">
                         <el-collapse-item title="Name" name="Name">
                             <div class="menu-container">
                                 <label class="menu-label">Name</label>
@@ -127,7 +329,7 @@
                                     v-model="model.yAxis.nameLocation"
                                 >
                                     <el-option
-                                        v-for="item in axisPosition"
+                                        v-for="item in barSettings.axisPosition"
                                         :key="item"
                                         :label="item"
                                         :value="item"
@@ -228,7 +430,7 @@
                             v-model="model.title.left"
                         >
                             <el-option
-                                v-for="item in horizontalPositions"
+                                v-for="item in barSettings.horizontalPositions"
                                 :key="item"
                                 :label="item"
                                 :value="item"
@@ -239,7 +441,7 @@
                         <label class="menu-label">Vertical Position</label>
                         <el-select class="menu-input" v-model="model.title.top">
                             <el-option
-                                v-for="item in verticalPositions"
+                                v-for="item in barSettings.verticalPositions"
                                 :key="item"
                                 :label="item"
                                 :value="item"
@@ -281,7 +483,7 @@
                                 v-model="model.legend.icon"
                             >
                                 <el-option
-                                    v-for="item in legendShape"
+                                    v-for="item in barSettings.legendShape"
                                     :key="item"
                                     :label="item"
                                     :value="item"
@@ -300,7 +502,7 @@
                             />
                         </span>
                     </div>
-                    <el-collapse v-model="menuStructure.legend">
+                    <el-collapse v-model="barSettings.menuStructure.legend">
                         <el-collapse-item title="Position" name="Position">
                             <div class="menu-container">
                                 <label class="menu-label"
@@ -311,7 +513,7 @@
                                     v-model="model.legend.left"
                                 >
                                     <el-option
-                                        v-for="item in horizontalPositions"
+                                        v-for="item in barSettings.horizontalPositions"
                                         :key="item"
                                         :label="item"
                                         :value="item"
@@ -327,7 +529,7 @@
                                     v-model="model.legend.top"
                                 >
                                     <el-option
-                                        v-for="item in verticalPositions"
+                                        v-for="item in barSettings.verticalPositions"
                                         :key="item"
                                         :label="item"
                                         :value="item"
@@ -373,117 +575,14 @@
                     </el-collapse>
                 </el-collapse-item>
 
-                <!--Bar Style-->
-                <el-collapse-item>
-                    <template #title>
-                        <span class="menu-header">Bar Style</span>
-                    </template>
-                    <div class="menu-container">
-                        <label class="menu-label">Bar Orientation</label>
-                        <el-select
-                            class="menu-input"
-                            v-model="barOrientation"
-                            @change="changeBarOrientation($event, model)"
-                        >
-                            <el-option
-                                label="X Axis"
-                                value="X Axis"
-                            ></el-option>
-                            <el-option
-                                label="Y Axis"
-                                value="Y Axis"
-                            ></el-option>
-                        </el-select>
-                    </div>
-                    <el-collapse v-model="menuStructure.barStyle">
-                        <el-collapse-item title="Label" name="Label">
-                            <div class="menu-container">
-                                <label class="menu-label">Show Label</label>
-                                <el-switch
-                                    class="menu-input"
-                                    type="checkbox"
-                                    v-model="seriesOption.label.show"
-                                    @change="changeSeries(model)"
-                                />
-                            </div>
-                            <div
-                                class="menu-container"
-                                v-if="seriesOption.label.show"
-                            >
-                                <label class="menu-label">Position</label>
-                                <span class="menu-input">
-                                    <el-select
-                                        class="menu-input"
-                                        v-model="seriesOption.label.position"
-                                        @change="changeSeries(model)"
-                                    >
-                                        <el-option
-                                            v-for="item in labelPosition"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item"
-                                        ></el-option>
-                                    </el-select>
-                                </span>
-                            </div>
-                            <div
-                                class="menu-container"
-                                v-if="seriesOption.label.show"
-                            >
-                                <label class="menu-label">Distance</label>
-                                <span class="menu-input">
-                                    <el-input-number
-                                        v-model="seriesOption.label.distance"
-                                        size="small"
-                                        :min="0"
-                                        :max="100"
-                                    />
-                                </span>
-                            </div>
-                            <FontStyle
-                                v-if="seriesOption.label.show"
-                                :text-style="seriesOption.label"
-                            ></FontStyle>
-                        </el-collapse-item>
-                        <el-collapse-item title="Background" name="Background">
-                            <div class="menu-container">
-                                <label class="menu-label"
-                                    >Show Background</label
-                                >
-                                <el-switch
-                                    class="menu-input"
-                                    type="checkbox"
-                                    v-model="seriesOption.showBackground"
-                                    @change="changeSeries(model)"
-                                />
-                            </div>
-                            <div
-                                class="menu-container"
-                                v-if="seriesOption.showBackground"
-                            >
-                                <label class="menu-label"
-                                    >Background Color</label
-                                >
-                                <span class="menu-input">
-                                    <input
-                                        v-model="
-                                            seriesOption.backgroundStyle.color
-                                        "
-                                        @input="changeSeries(model)"
-                                        type="color"
-                                    />
-                                </span>
-                            </div>
-                        </el-collapse-item>
-                    </el-collapse>
-                </el-collapse-item>
-
                 <!--Interaction-->
                 <el-collapse-item>
                     <template #title>
                         <span class="menu-header">Interaction</span>
                     </template>
-                    <el-collapse v-model="menuStructure.interaction">
+                    <el-collapse
+                        v-model="barSettings.menuStructure.interaction"
+                    >
                         <el-collapse-item
                             title="X Axis Pointer"
                             name="X Axis Pointer"
@@ -506,7 +605,7 @@
                                     v-model="model.xAxis.axisPointer.type"
                                 >
                                     <el-option
-                                        v-for="item in axisPointer"
+                                        v-for="item in barSettings.axisPointer"
                                         :key="item"
                                         :label="item"
                                         :value="item"
@@ -536,7 +635,7 @@
                                     v-model="model.yAxis.axisPointer.type"
                                 >
                                     <el-option
-                                        v-for="item in axisPointer"
+                                        v-for="item in barSettings.axisPointer"
                                         :key="item"
                                         :label="item"
                                         :value="item"
@@ -546,68 +645,81 @@
                         </el-collapse-item>
                     </el-collapse>
                 </el-collapse-item>
-
-                <!--Data-->
-                <el-collapse-item>
-                    <template #title>
-                        <span class="menu-header">Data</span>
-                    </template>
-                    <div class="menu-container">
-                        <label class="menu-label">Series by</label>
-                        <el-select
-                            class="menu-input"
-                            v-model="seriesBy"
-                            @change="changeSeriesBy($event, model)"
-                        >
-                            <el-option label="row" value="row"></el-option>
-                            <el-option
-                                label="column"
-                                value="column"
-                            ></el-option>
-                        </el-select>
-                    </div>
-                    <hr />
-                    <div v-for="(item, index) in model.series" :key="index">
-                        <h4>{{ "Series " + (index + 1) }}</h4>
-                        <div class="menu-container">
-                            <label class="menu-label">Name</label>
-                            <el-input
-                                class="menu-input"
-                                v-model="item.name"
-                                type="text"
-                            />
-                        </div>
-                        <div class="menu-container">
-                            <label class="menu-label">Color</label>
-                            <span class="menu-input">
-                                <input
-                                    v-model="item.itemStyle.color"
-                                    type="color"
-                                    list="series-colors"
-                                />
-                            </span>
-                        </div>
-                        <hr />
-                    </div>
-                    <datalist id="series-colors">
-                        <option v-for="color in colors" :key="color">
-                            {{ color }}
-                        </option>
-                    </datalist>
-                </el-collapse-item>
             </el-collapse>
         </form>
     </div>
 </template>
 
 <script lang="js">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent } from "vue";
 import { useStore } from "vuex";
 
+import { getDefaultColor } from "../utils/chartUtil";
 import FontStyle from "./FontStyle.vue";
+import barSettings from "../resources/settings/barSettings.json";
 
-import { getDefaultColor } from "../utils/input.js";
-import colors from "../resources/template/colors.json";
+const changeBarOrientation = (event, model) => {
+    if (event === "vertical") {
+        model.xAxis.type = "category";
+        model.yAxis.type = "value";
+    }
+    if (event === "horizontal") {
+        model.yAxis.type = "category";
+        model.xAxis.type = "value";
+    }
+};
+
+const changeXAxisAs = (event, model, colors) => {
+    model.series.splice(0, model.series.length);
+    if (event === "columns") {                
+        for (let row = 1; row < model.dataset.source.length; row++) {
+            let seriesTemplate = { type: 'bar', seriesLayoutBy: 'row', itemStyle: {}, stack: model.customization.stack ? "stack" : "" };
+            seriesTemplate.name = model.dataset.source[row][0];
+            seriesTemplate.itemStyle.color = getDefaultColor(colors, row - 1);
+            model.series.push(seriesTemplate);
+        }
+    }
+    if (event === "rows") {
+        for (let column = 1; column < model.dataset.source[0].length; column++) {
+            let seriesTemplate = { type: 'bar', seriesLayoutBy: 'column', itemStyle: {} , stack: model.customization.stack ? "stack" : ""};
+            seriesTemplate.name = model.dataset.source[0][column];
+            seriesTemplate.itemStyle.color = getDefaultColor(colors, column - 1);
+            model.series.push(seriesTemplate);
+        }
+    }
+    //important: force chart to clear data and re-render
+    model.customization.forceClear = true;
+};
+
+const changeSeries = (model) => {
+    if (!model || !Array.isArray(model.series)) {
+        console.error('Invalid series input for function changeSeries');
+        return;
+    }
+    for (let i in model.series) {
+        Object.assign(model.series[i], model.customization.seriesOption);
+    }
+};
+
+const changeStack = (event, model) => {
+    if (!model || !Array.isArray(model.series)) {
+        console.error('Invalid series input for function changeStack');
+        return;
+    }
+    if (event === true) {
+        if (!model.dataset.source[0][0]) {//source[0][0] MUST NOT be empty
+            model.dataset.source[0][0] = " ";
+        }
+        for (let i in model.series) {
+             model.series[i].stack = "stack";
+        }
+    }
+    else {
+        for (let i in model.series) {
+            model.series[i].stack = "";
+        }
+    }
+};
 
 export default defineComponent({
     name: "menu-panel",
@@ -616,113 +728,15 @@ export default defineComponent({
     },
     setup() {
         const store = useStore();
-        const option = store.getters.option;
-
-        const menuStructure = {
-            xAxis: ["Name", "Label", "Tick"],
-            yAxis: ["Name", "Label", "Tick"],
-            title:[],
-            legend:["Position", "Icon"],
-            barStyle:["Label", "Background"],
-            interaction:["X Axis Pointer", "Y Axis Pointer"],
-            data:[]
-        };
-
-        const horizontalPositions = ["left", "center", "right"];
-        const verticalPositions = ["top", "middle", "bottom"];
-        const axisPosition = ["start", "center", "end"];
-        const axisPointer = ["line", "shadow", "none"];
-
-        const labelPosition = [
-            'top',
-            'left',
-            'right',
-            'bottom',
-            'inside',
-            'insideLeft',
-            'insideRight',
-            'insideTop',
-            'insideBottom',
-            'insideTopLeft',
-            'insideBottomLeft',
-            'insideTopRight',
-            'insideBottomRight'
-        ];
-
-        const barOrientation = ref("X Axis");
-
-        const changeBarOrientation = (event, model) => {
-            let temp = model.xAxis.type;
-            model.xAxis.type = model.yAxis.type;
-            model.yAxis.type = temp;
-        };
-
-        const seriesBy = ref("row");
-
-        const changeSeriesBy = (event, model) => {
-            if (event === "row") {
-                model.series.splice(0, model.series.length);
-                for (let row = 1; row < model.dataset.source.length; row++) {
-                    let seriesTemplate = { type: 'bar', seriesLayoutBy: 'row', itemStyle: {} };
-                    seriesTemplate.name = model.dataset.source[row][0];
-                    seriesTemplate.itemStyle.color = getDefaultColor(row - 1);
-                    model.series.push(seriesTemplate);
-                }
-            }
-            if (event === "column") {
-                model.series.splice(0, model.series.length);
-                for (let column = 1; column < model.dataset.source[0].length; column++) {
-                    let seriesTemplate = { type: 'bar', seriesLayoutBy: 'column', itemStyle: {} };
-                    seriesTemplate.name = model.dataset.source[0][column];
-                    seriesTemplate.itemStyle.color = getDefaultColor(column - 1);
-                    model.series.push(seriesTemplate);
-                }
-            }
-            option.clearFlag = true;
-        };
-
-        const seriesOption = reactive({
-            showBackground: false,
-            backgroundStyle: { color: "#B4B4B4" },
-            label:{
-                show: false,
-                position: "inside",
-                distance: 5,
-                fontWeight: "normal",
-                fontStyle: "normal",
-                fontSize: 12
-            }
-        });
-
-        const legendShape = ['roundRect', 'circle', 'rect',  'triangle', 'diamond', 'pin', 'arrow', 'none'];
-
-        
-        const changeSeries = (model) => {
-            if (!model || !Array.isArray(model.series)) {
-                console.error('Invalid input for function changeSeriesShowBackground');
-                return;
-            }
-            for (let i in model.series) {
-                Object.assign(model.series[i], seriesOption);
-            }
-        };
 
         return {
-            model: option,
-            horizontalPositions,
-            verticalPositions,
-            axisPosition,
-            labelPosition,
-            legendShape,
-            colors,
-            axisPointer,
-            seriesOption,
-            barOrientation,
+            model: store.getters.option,
+            barSettings,
+            colors: store.getters.colors,
             changeBarOrientation,
-            seriesBy,
-            changeSeriesBy,
+            changeXAxisAs,
             changeSeries,
-            menuStructure
+            changeStack
         };
     },
 });
@@ -756,7 +770,7 @@ export default defineComponent({
     font-size: 13px;
     font-weight: bold;
 }
-.el-collapse-item__header__customized {
+/* .el-collapse-item__header__customization {
     font-size: 18px !important;
-}
+} */
 </style>

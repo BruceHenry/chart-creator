@@ -9,7 +9,7 @@ import { useStore } from 'vuex'
 import Tabulator from 'tabulator-tables'
 import "tabulator-tables/dist/css/tabulator.min.css"
 
-import { getColumnTitle, getColumnIndex, getMaxLength, copyData } from "../utils/table";
+import { getColumnTitle, getColumnIndex, getMaxLength, copyData } from "../utils/tableUtil";
 
 function getTable(chartData) {
     const data = copyData(chartData);
@@ -62,8 +62,7 @@ export default defineComponent({
 
     const updateCellCallback = function(row, col, value) {
       store.dispatch('updateChartData', {row, col, value});  
-    }
-
+    };
 
     onMounted(() => {
       const table = initTable(store.getters.option.dataset.source, updateCellCallback);
@@ -78,6 +77,6 @@ export default defineComponent({
 
 <style>
 #table {
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 </style>

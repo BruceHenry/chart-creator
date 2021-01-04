@@ -183,7 +183,7 @@
                             >
                                 <div class="menu-container">
                                     <label class="menu-label">{{
-                                        (index + 1) + ". " + item.name + ":"
+                                        index + 1 + ". " + item.name + ":"
                                     }}</label>
                                     <span class="menu-input">
                                         <input
@@ -210,6 +210,23 @@
                         <span class="menu-header">X Axis</span>
                     </template>
                     <el-collapse v-model="barSettings.menuStructure.xAxis">
+                        <el-collapse-item title="Label" name="Label">
+                            <FontStyle
+                                label="Font"
+                                :text-style="model.xAxis.axisLabel"
+                            ></FontStyle>
+                            <div class="menu-container">
+                                <label class="menu-label">Gap</label>
+                                <span class="menu-input">
+                                    <el-input-number
+                                        v-model="model.xAxis.axisLabel.margin"
+                                        size="small"
+                                        :min="0"
+                                        :max="100"
+                                    />
+                                </span>
+                            </div>
+                        </el-collapse-item>
                         <el-collapse-item title="Name" name="Name">
                             <div class="menu-container">
                                 <label class="menu-label">Text</label>
@@ -249,26 +266,32 @@
                                 </span>
                             </div>
                         </el-collapse-item>
-                        <el-collapse-item title="Label" name="Label">
-                            <FontStyle
-                                label="Font"
-                                :text-style="model.xAxis.axisLabel"
-                            ></FontStyle>
+                        <el-collapse-item
+                            title="Tick and Line"
+                            name="Tick and Line"
+                        >
                             <div class="menu-container">
-                                <label class="menu-label">Gap</label>
+                                <label class="menu-label">Inverse Axis</label>
                                 <span class="menu-input">
-                                    <el-input-number
-                                        v-model="model.xAxis.axisLabel.margin"
-                                        size="small"
-                                        :min="0"
-                                        :max="100"
+                                    <el-switch
+                                        class="menu-input"
+                                        type="checkbox"
+                                        v-model="model.xAxis.inverse"
                                     />
                                 </span>
                             </div>
-                        </el-collapse-item>
-                        <el-collapse-item title="Tick" name="Tick">
                             <div class="menu-container">
-                                <label class="menu-label">Display</label>
+                                <label class="menu-label">Show Line</label>
+                                <span class="menu-input">
+                                    <el-switch
+                                        class="menu-input"
+                                        type="checkbox"
+                                        v-model="model.xAxis.axisLine.show"
+                                    />
+                                </span>
+                            </div>
+                            <div class="menu-container">
+                                <label class="menu-label">Show Tick</label>
                                 <span class="menu-input">
                                     <el-switch
                                         class="menu-input"
@@ -278,7 +301,7 @@
                                 </span>
                             </div>
                             <div class="menu-container">
-                                <label class="menu-label">Inside</label>
+                                <label class="menu-label">Tick Inside</label>
                                 <span class="menu-input">
                                     <el-switch
                                         class="menu-input"
@@ -288,7 +311,7 @@
                                 </span>
                             </div>
                             <div class="menu-container">
-                                <label class="menu-label">Length</label>
+                                <label class="menu-label">Tick Length</label>
                                 <span class="menu-input">
                                     <el-input-number
                                         v-model="model.xAxis.axisTick.length"
@@ -308,6 +331,23 @@
                         <span class="menu-header">Y Axis</span>
                     </template>
                     <el-collapse v-model="barSettings.menuStructure.yAxis">
+                        <el-collapse-item title="Label" name="Label">
+                            <FontStyle
+                                label="Font"
+                                :text-style="model.yAxis.axisLabel"
+                            ></FontStyle>
+                            <div class="menu-container">
+                                <label class="menu-label">Gap</label>
+                                <span class="menu-input">
+                                    <el-input-number
+                                        v-model="model.yAxis.axisLabel.margin"
+                                        size="small"
+                                        :min="0"
+                                        :max="100"
+                                    />
+                                </span>
+                            </div>
+                        </el-collapse-item>
                         <el-collapse-item title="Name" name="Name">
                             <div class="menu-container">
                                 <label class="menu-label">Name</label>
@@ -348,26 +388,32 @@
                                 </span>
                             </div>
                         </el-collapse-item>
-                        <el-collapse-item title="Label" name="Label">
-                            <FontStyle
-                                label="Font"
-                                :text-style="model.yAxis.axisLabel"
-                            ></FontStyle>
+                        <el-collapse-item
+                            title="Tick and Line"
+                            name="Tick and Line"
+                        >
                             <div class="menu-container">
-                                <label class="menu-label">Gap</label>
+                                <label class="menu-label">Inverse Axis</label>
                                 <span class="menu-input">
-                                    <el-input-number
-                                        v-model="model.yAxis.axisLabel.margin"
-                                        size="small"
-                                        :min="0"
-                                        :max="100"
+                                    <el-switch
+                                        class="menu-input"
+                                        type="checkbox"
+                                        v-model="model.yAxis.inverse"
                                     />
                                 </span>
                             </div>
-                        </el-collapse-item>
-                        <el-collapse-item title="Tick" name="Tick">
                             <div class="menu-container">
-                                <label class="menu-label">Display</label>
+                                <label class="menu-label">Show Line</label>
+                                <span class="menu-input">
+                                    <el-switch
+                                        class="menu-input"
+                                        type="checkbox"
+                                        v-model="model.yAxis.axisLine.show"
+                                    />
+                                </span>
+                            </div>
+                            <div class="menu-container">
+                                <label class="menu-label">Show Tick</label>
                                 <span class="menu-input">
                                     <el-switch
                                         class="menu-input"
@@ -377,7 +423,7 @@
                                 </span>
                             </div>
                             <div class="menu-container">
-                                <label class="menu-label">Inside</label>
+                                <label class="menu-label">Tick Inside</label>
                                 <span class="menu-input">
                                     <el-switch
                                         class="menu-input"
@@ -387,7 +433,7 @@
                                 </span>
                             </div>
                             <div class="menu-container">
-                                <label class="menu-label">Length</label>
+                                <label class="menu-label">Tick Length</label>
                                 <span class="menu-input">
                                     <el-input-number
                                         v-model="model.yAxis.axisTick.length"
@@ -746,6 +792,7 @@ export default defineComponent({
 .menu-header {
     font-size: 18px;
     font-weight: bold;
+    color:#145c95;
 }
 
 .menu-section {

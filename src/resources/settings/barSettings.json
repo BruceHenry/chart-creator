@@ -11,14 +11,14 @@
             "Bar Colors"
         ],
         "xAxis": [
-            "Name",
             "Label",
-            "Tick"
+            "Name",
+            "Tick and Line"
         ],
         "yAxis": [
-            "Name",
             "Label",
-            "Tick"
+            "Name",
+            "Tick and Line"
         ],
         "title": [],
         "legend": [

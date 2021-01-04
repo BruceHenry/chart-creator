@@ -8,6 +8,7 @@
         >
             <el-tab-pane label="Chart">
                 <Chart></Chart>
+                <ChartController></ChartController>
             </el-tab-pane>
         </el-tabs>
         <el-tabs
@@ -37,6 +38,7 @@ import DataTable from "./DataTable.vue";
 import FileUploader from "./FileUploader";
 
 import barData from "../resources/example/barData.json";
+import ChartController from "./ChartController.vue";
 
 export default defineComponent({
     name: "main-panel",
@@ -45,6 +47,7 @@ export default defineComponent({
         MenuPanel,
         DataTable,
         FileUploader,
+        ChartController
     },
     setup() {
         const store = useStore();

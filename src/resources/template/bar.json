@@ -56,6 +56,7 @@
     "xAxis": {
         "data": [],
         "type": "category",
+        "inverse": false,
         "nameLocation": "end",
         "nameGap": 25,
         "nameTextStyle": {
@@ -74,6 +75,9 @@
             "inside": false,
             "length": 5
         },
+        "axisLine":{
+            "show": true
+        },
         "axisPointer": {
             "show": false,
             "type": "shadow"
@@ -81,6 +85,7 @@
     },
     "yAxis": {
         "type": "value",
+        "inverse": false,
         "nameLocation": "end",
         "nameGap": 15,
         "nameTextStyle": {
@@ -98,6 +103,9 @@
             "show": true,
             "inside": false,
             "length": 5
+        },
+        "axisLine":{
+            "show": true
         },
         "axisPointer": {
             "show": false,

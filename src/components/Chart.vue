@@ -26,7 +26,7 @@ import { getDefaultColor } from "../utils/chartUtil";
 const updateChart = (echartsInstance, option) => {
     try {
         if (option.customization.forceClear) {
-            console.log("updateChart, forceClear: ", option.customization.forceClear);
+            console.debug("updateChart, forceClear: ", option.customization.forceClear);
 
             //important: set forceClear to false for quick(non-refresh) update
             option.customization.forceClear = false;
@@ -50,7 +50,7 @@ const updateChart = (echartsInstance, option) => {
 
             echartsInstance.setOption(option);
         } else {
-            console.log("updateChart, forceClear: ", option.customization.forceClear);
+            console.debug("updateChart, forceClear: ", option.customization.forceClear);
             echartsInstance.setOption(option);
         }
     } catch (error) {

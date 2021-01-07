@@ -34,7 +34,7 @@ export const store = createStore({
             }
         },
         setSheetNames(state, sheetNames) {
-            state.sheetNames.length = 0;
+            state.sheetNames.splice(0, state.sheetNames.length);
             for (let i in sheetNames) {
                 state.sheetNames.push(sheetNames[i]);
             }

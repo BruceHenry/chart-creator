@@ -26,7 +26,7 @@ import { getDefaultColor } from "../utils/chartUtil";
 const updateChart = (echartsInstance, option) => {
     try {
         if (option.customization.forceClear) {
-            console.debug("updateChart, forceClear: ", option.customization.forceClear);
+            console.debug("updateChart, forceClear: ", option.customization.forceClear, option);
 
             //important: set forceClear to false for quick(non-refresh) update
             option.customization.forceClear = false;
@@ -50,7 +50,7 @@ const updateChart = (echartsInstance, option) => {
 
             echartsInstance.setOption(option);
         } else {
-            console.debug("updateChart, forceClear: ", option.customization.forceClear);
+            console.debug("updateChart, forceClear: ", option.customization.forceClear, option);
             echartsInstance.setOption(option);
         }
     } catch (error) {
@@ -113,9 +113,6 @@ export default defineComponent({
                     store.getters.option
                 );
                 store.dispatch("setColors", echartsInstance.getOption().color);
-                // store.getters.option.backgroundColor = handleBackgroundColor(
-                //     echartsInstance.getOption().backgroundColor
-                // );
             });
         });
     },

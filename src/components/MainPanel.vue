@@ -78,7 +78,7 @@ export default defineComponent({
 
 @media (max-width: 1500px) {
     .sub-container {
-        width: 780px !important;
+        min-width: 780px !important;
         height: 100%;
     }
 }

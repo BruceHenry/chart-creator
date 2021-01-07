@@ -21,6 +21,7 @@
                     <div class="menu-container">
                         <label class="menu-label">Stacked Bar</label>
                         <el-switch
+                            id="basics-stacked-bar"
                             class="menu-input"
                             type="checkbox"
                             v-model="model.customization.stack"
@@ -43,6 +44,7 @@
                             <div class="menu-container">
                                 <label class="menu-label">Show Label</label>
                                 <el-switch
+                                    id="basics-show-label"
                                     class="menu-input"
                                     type="checkbox"
                                     v-model="
@@ -114,6 +116,7 @@
                                     >Show Background</label
                                 >
                                 <el-switch
+                                    id="basics-show-background"
                                     class="menu-input"
                                     type="checkbox"
                                     v-model="
@@ -175,7 +178,13 @@
                             />
                         </span>
                     </div>
-                    <el-collapse v-model="barSettings.menuStructure.color">
+                    <el-collapse
+                        v-model="barSettings.menuStructure.color"
+                        v-if="
+                            Array.isArray(model.series) &&
+                            model.series.length > 0
+                        "
+                    >
                         <el-collapse-item title="Bar Colors" name="Bar Colors">
                             <div
                                 v-for="(item, index) in model.series"
@@ -274,6 +283,7 @@
                                 <label class="menu-label">Inverse Axis</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="xaxis-inverse-axis"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.xAxis.inverse"
@@ -284,6 +294,7 @@
                                 <label class="menu-label">Show Line</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="xaxis-show-line"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.xAxis.axisLine.show"
@@ -294,6 +305,7 @@
                                 <label class="menu-label">Show Tick</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="xaxis-show-tick"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.xAxis.axisTick.show"
@@ -304,6 +316,7 @@
                                 <label class="menu-label">Tick Inside</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="xaxis-tick-inside"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.xAxis.axisTick.inside"
@@ -396,6 +409,7 @@
                                 <label class="menu-label">Inverse Axis</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="yaxis-inverse-axis"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.yAxis.inverse"
@@ -406,6 +420,7 @@
                                 <label class="menu-label">Show Line</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="yaxis-show-line"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.yAxis.axisLine.show"
@@ -416,6 +431,7 @@
                                 <label class="menu-label">Show Tick</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="yaxis-show-tick"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.yAxis.axisTick.show"
@@ -426,6 +442,7 @@
                                 <label class="menu-label">Tick Inside</label>
                                 <span class="menu-input">
                                     <el-switch
+                                        id="yaxis-tick-inside"
                                         class="menu-input"
                                         type="checkbox"
                                         v-model="model.yAxis.axisTick.inside"
@@ -452,6 +469,7 @@
                     <div class="menu-container">
                         <label class="menu-label">Display</label>
                         <el-switch
+                            id="title-display"
                             class="menu-input"
                             type="checkbox"
                             v-model="model.title.show"
@@ -515,6 +533,7 @@
                     <div class="menu-container">
                         <label class="menu-label">Display</label>
                         <el-switch
+                            id="legend-display"
                             class="menu-input"
                             type="checkbox"
                             v-model="model.legend.show"
@@ -636,6 +655,7 @@
                             <div class="menu-container">
                                 <label class="menu-label">On</label>
                                 <el-switch
+                                    id="interaction-x-on"
                                     class="menu-input"
                                     type="checkbox"
                                     v-model="model.xAxis.axisPointer.show"
@@ -666,6 +686,7 @@
                             <div class="menu-container">
                                 <label class="menu-label">On</label>
                                 <el-switch
+                                    id="interaction-y-on"
                                     class="menu-input"
                                     type="checkbox"
                                     v-model="model.yAxis.axisPointer.show"
@@ -792,7 +813,7 @@ export default defineComponent({
 .menu-header {
     font-size: 18px;
     font-weight: bold;
-    color:#145c95;
+    color: #145c95;
 }
 
 .menu-section {

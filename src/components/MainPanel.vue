@@ -51,8 +51,14 @@ export default defineComponent({
     },
     setup() {
         const store = useStore();
-        store.dispatch("setChartData", barData);
-    },
+        const sheetNames = [];
+        for (let sheetname in barData) {
+            sheetNames.push(sheetname)
+        }
+        store.dispatch("setSheetNames", sheetNames);
+        store.dispatch("setFileData", barData);
+        store.dispatch("setSheet", sheetNames[0]);
+    }
 });
 </script>
 

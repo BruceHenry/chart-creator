@@ -1,5 +1,60 @@
-[
-    ["", "Column A", "Column B","Column C", "Column D", "Column E"],
-    ["Row 1", 10, 15, 20, 25, 30],
-    ["Row 2", 30, 25, 20, 15, 10]
-]
+{
+    "Example Data 1": [
+        [
+            "",
+            "Column A",
+            "Column B"
+        ],
+        [
+            "Row 1",
+            50,
+            10
+        ],
+        [
+            "Row 2",
+            40,
+            20
+        ],
+        [
+            "Row 3",
+            30,
+            30
+        ],
+        [
+            "Row 4",
+            20,
+            40
+        ],
+        [
+            "Row 5",
+            10,
+            50
+        ]
+    ],
+    "Example Data 2": [
+        [
+            "",
+            "Column A",
+            "Column B",
+            "Column C",
+            "Column D",
+            "Column E"
+        ],
+        [
+            "Row 1",
+            30,
+            25,
+            20,
+            15,
+            10
+        ],
+        [
+            "Row 2",
+            10,
+            15,
+            20,
+            25,
+            30
+        ]
+    ]
+}

@@ -6,17 +6,17 @@
             <el-button size="small" type="primary" @click="$refs.file.click()">
                 Open File
             </el-button>
-            <span v-if="fileUpload.file">
-                File: {{ fileUpload.file.name }}
+            <span v-if="uploadedFile.file">
+                File: {{ uploadedFile.file.name }}
             </span>
-            <span v-else>No file chosen (Support xls/xlsx/csv format)</span>
+            <span v-else>Upload xls/xlsx/csv file, or saved JSON file.</span>
         </div>
-        <div v-show="sheetNames.length" id="sheet-selector">
+        <div id="sheet-selector-div">
             <label>Select Sheet: </label>
-            <!--element-plus has bug in dynamic el-select tag-->
+            <!--element-plus has bug in dynamic el-select tag ("selected" attribute abused), use native select instead-->
             <select
                 v-model="selectedSheet"
-                id="selected-sheet"
+                id="selected-sheet-input"
                 @change="sheetOnChange($event)"
             >
                 <option
@@ -28,13 +28,11 @@
                 ></option>
             </select>
         </div>
-        <div v-show="!sheetNames.length">
-            <p><b>Example Data:</b></p>
-        </div>
     </div>
 </template>
 
 <script>
+import { store } from "@/store";
 import {
     defineComponent,
     nextTick,
@@ -42,7 +40,7 @@ import {
     reactive,
     watchEffect,
 } from "vue";
-import { ref } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import XLSX from "xlsx";
 
@@ -57,37 +55,78 @@ const to_json = function (workbook) {
     return result;
 };
 
+const getExtension = (fileName) => {
+    const strArray = fileName.split(".");
+    if (strArray.length > 1) {
+        return strArray[strArray.length - 1];
+    }
+    return "";
+};
+
+const handleXlsxFile = (file, store) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const data = e.target.result;
+        const workBook = XLSX.read(data, { type: "binary" });
+        const fileData = to_json(workBook);
+        const sheetNames = [];
+        for (let sheetName in fileData) {
+            sheetNames.push(sheetName);
+        }
+        store.dispatch("setSheetNames", sheetNames);
+        store.dispatch("setFileData", fileData);
+        store.dispatch("setSheet", sheetNames[0]);
+    };
+    reader.readAsBinaryString(file);
+};
+
+const handleJsonFile = (file) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const option = JSON.parse(e.target.result);
+
+        //To-do: file validation
+
+        const sheetNames = ["Sheet1"];
+        const fileData = { Sheet1: option.dataset.source };
+        store.dispatch("setSheetNames", sheetNames);
+        store.dispatch("setFileData", fileData);
+        store.dispatch("setSheet", sheetNames[0]);
+        store.dispatch("setOption", option);
+        option.customization.forceClear = true;
+    };
+    reader.readAsText(file);
+};
+
 export default defineComponent({
     name: "file-uploader",
     components: {},
     setup() {
         const store = useStore();
 
+        const XLSX_FORMAT = ["xls", "xlsx", "csv"];
+
         let selectedSheet = ref(store.getters.sheetNames[0]);
-        const fileUpload = reactive({ file: null });
+        const uploadedFile = reactive({ file: null });
 
         const handleFile = function (e) {
-            console.log("handleFile", e, selectedSheet)
-            const file = e.target.files[0];            
+            const file = e.target.files[0];
             if (!file) {
                 return;
             }
-            fileUpload.file = file;
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const data = e.target.result;
-                const workBook = XLSX.read(data, { type: "binary" });
-                const fileData = to_json(workBook);
-                const sheetNames = [];
-                for (let sheetName in fileData) {
-                    sheetNames.push(sheetName);
-                }
-                store.dispatch("setSheetNames", sheetNames);
-                store.dispatch("setFileData", fileData);
-                store.dispatch("setSheet", sheetNames[0]);
-            };
-            reader.readAsBinaryString(file);
+            uploadedFile.file = file;
+
+            const extension = getExtension(file.name);
+            if (extension === "json") {
+                handleJsonFile(file, store);
+            } else if (XLSX_FORMAT.indexOf(extension) !== -1) {
+                handleXlsxFile(file, store);
+            } else {
+                getCurrentInstance().ctx.$message.error(
+                    "Unsupported extension of file, please upload json/xls/xlsx/csv file."
+                );
+            }
         };
 
         const sheetOnChange = ($event) => {
@@ -102,14 +141,14 @@ export default defineComponent({
                 //store.getters.sheetNames[0] must be accessed to trigger watchEffect()
                 if (store.getters.sheetNames[0]) {
                     await nextTick();
-                    document.getElementById("selected-sheet").value =
+                    document.getElementById("selected-sheet-input").value =
                         store.getters.sheetNames[0];
                 }
             });
         });
 
         return {
-            fileUpload,
+            uploadedFile,
             selectedSheet,
             sheetNames: store.getters.sheetNames,
             sheetOnChange,
@@ -119,11 +158,11 @@ export default defineComponent({
 </script>
 
 <style>
-#sheet-selector {
+#sheet-selector-div {
     margin: 10px 0;
 }
-#selected-sheet {
-    width: 125px;
+#selected-sheet-input {
+    width: 175px;
     height: 25px;
     font-size: 15px;
     border-radius: 5px;

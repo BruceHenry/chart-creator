@@ -17,13 +17,22 @@ export const generateOptionWithDataset = function (inputData) {
     //xAxis
     delete outputJson.xAxis.data;
 
-    //series
-    for (let col = 1; col < inputData[0].length; col++) {
-        let seriesTemplate = { type: 'bar', seriesLayoutBy: 'column', itemStyle: {}, stack:"" };
-        seriesTemplate.name = inputData[0][col];
-        seriesTemplate.itemStyle.color = getDefaultColor(defaultColors, col - 1);
+    //series (xAxis as columns)
+    for (let row = 1; row < inputData.length; row++) {
+        let seriesTemplate = { type: 'bar', seriesLayoutBy: 'row', itemStyle: {}, stack:"" };
+        seriesTemplate.name = inputData[row][0];
+        seriesTemplate.itemStyle.color = getDefaultColor(defaultColors, row - 1);
         outputJson.series.push(seriesTemplate);
     }
+
+    //series (xAxis as rows)
+    // for (let col = 1; col < inputData[0].length; col++) {
+    //     let seriesTemplate = { type: 'bar', seriesLayoutBy: 'column', itemStyle: {}, stack:"" };
+    //     seriesTemplate.name = inputData[0][col];
+    //     seriesTemplate.itemStyle.color = getDefaultColor(defaultColors, col - 1);
+    //     outputJson.series.push(seriesTemplate);
+    // }
+
     return outputJson;
 }
 

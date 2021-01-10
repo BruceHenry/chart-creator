@@ -6,10 +6,10 @@
             <el-button size="small" type="primary" @click="$refs.file.click()">
                 Open File
             </el-button>
-            <span v-if="uploadedFile.file">
+            <span v-if="uploadedFile.file" class="filename-span">
                 File: {{ uploadedFile.file.name }}
             </span>
-            <span v-else>Upload xls/xlsx/csv file, or saved JSON file.</span>
+            <span v-else class="filename-span">Support xls/xlsx/csv/json file</span>
         </div>
         <div id="sheet-selector-div">
             <label>Select Sheet: </label>
@@ -158,6 +158,10 @@ export default defineComponent({
 </script>
 
 <style>
+.filename-span {
+    margin-left: 25px;
+    color: #67b2ff;
+}
 #sheet-selector-div {
     margin: 10px 0;
 }

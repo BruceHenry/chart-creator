@@ -16,7 +16,7 @@ export default defineComponent({
 
 <style>
 body {
-  background-color: #B7B7B7;
+  background-color:#fef8ef;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -17,9 +17,9 @@
                 <DataTable></DataTable>
             </div>
             <div id="right-divider-div" @mousedown="mouseDownHandler($event)">
-                <el-divider
+                <el-divider style="margin: 10px 0;"
                     ><span style="user-select: none; color: grey"
-                        >Drag here to split</span
+                        >Drag here to move boundary</span
                     ></el-divider
                 >
             </div>
@@ -82,12 +82,13 @@ export default defineComponent({
         const mouseMoveHandler = function (e) {
             // How far the mouse has been moved
             const dy = e.clientY - y;
-            const h =
-                ((upperDivHeight + dy) * 100) /
-                resizer.parentNode.getBoundingClientRect().height;
-            upperDiv.style.height = `${h}%`;
+            const containerHeight = resizer.parentNode.getBoundingClientRect()
+                .height;
+            const upperDivPercent =
+                ((upperDivHeight + dy) * 100) / containerHeight;
+            upperDiv.style.height = `${upperDivPercent}%`;
 
-            lowerDiv.style.height = `${95 - h}%`;
+            lowerDiv.style.height = `${(90 -upperDivPercent)}%`;
 
             resizer.style.cursor = "row-resize";
             document.body.style.cursor = "row-resize";
@@ -118,11 +119,6 @@ export default defineComponent({
             resizer = document.getElementById("right-divider-div");
             upperDiv = document.getElementById("right-upper-container-div");
             lowerDiv = document.getElementById("right-lower-container-div");
-            const containerHeight = resizer.parentNode.getBoundingClientRect()
-                .height;
-            lowerDiv.style.height =
-                containerHeight - 80 - upperDiv.getBoundingClientRect().height;
-            console.log(lowerDiv);
         });
 
         return { mouseDownHandler };

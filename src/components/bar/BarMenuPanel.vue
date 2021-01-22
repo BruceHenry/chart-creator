@@ -32,8 +32,8 @@
                         <label class="menu-label">Bar Orientation</label>
                         <el-select
                             class="menu-input"
-                            v-model="model.customization.barOrientation"
-                            @change="changeBarOrientation($event, model)"
+                            v-model="model.customization.orientation"
+                            @change="changeOrientation($event, model)"
                         >
                             <el-option value="vertical">vertical</el-option>
                             <el-option value="horizontal">horizontal</el-option>
@@ -159,7 +159,7 @@
                         <el-select
                             class="menu-input"
                             v-model="model.customization.theme"
-                            @change="model.customization.forceClear = true"
+                            @change="model.customization.forceUpdate = true"
                         >
                             <el-option
                                 v-for="item in barSettings.themes"
@@ -541,22 +541,6 @@
                     </div>
                     <FontStyle :text-style="model.legend.textStyle"></FontStyle>
                     <div class="menu-container">
-                        <label class="menu-label">Shape</label>
-                        <span class="menu-input">
-                            <el-select
-                                class="menu-input"
-                                v-model="model.legend.icon"
-                            >
-                                <el-option
-                                    v-for="item in barSettings.legendShape"
-                                    :key="item"
-                                    :label="item"
-                                    :value="item"
-                                ></el-option>
-                            </el-select>
-                        </span>
-                    </div>
-                    <div class="menu-container">
                         <label class="menu-label">Gap</label>
                         <span class="menu-input">
                             <el-input-number
@@ -614,6 +598,22 @@
                             </div>
                         </el-collapse-item>
                         <el-collapse-item title="Icon" name="Icon">
+                            <div class="menu-container">
+                                <label class="menu-label">Shape</label>
+                                <span class="menu-input">
+                                    <el-select
+                                        class="menu-input"
+                                        v-model="model.legend.icon"
+                                    >
+                                        <el-option
+                                            v-for="item in barSettings.legendShape"
+                                            :key="item"
+                                            :label="item"
+                                            :value="item"
+                                        ></el-option>
+                                    </el-select>
+                                </span>
+                            </div>
                             <div class="menu-container">
                                 <label class="menu-label">Width</label>
                                 <span class="menu-input">
@@ -721,11 +721,12 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 
-import { getDefaultColor } from "../utils/chartUtil";
-import FontStyle from "./FontStyle.vue";
-import barSettings from "../resources/settings/barSettings.json";
+import FontStyle from "../FontStyle.vue";
 
-const changeBarOrientation = (event, model) => {
+import { getBarSeriesByColumn, getBarSeriesByRow } from "../../utils/chartUtil";
+import barSettings from "../../resources/bar/barSettings.json";
+
+const changeOrientation = (event, model) => {
     if (event === "vertical") {
         model.xAxis.type = "category";
         model.yAxis.type = "value";
@@ -738,24 +739,17 @@ const changeBarOrientation = (event, model) => {
 
 const changeXAxisAs = (event, model, colors) => {
     model.series.splice(0, model.series.length);
-    if (event === "columns") {                
-        for (let row = 1; row < model.dataset.source.length; row++) {
-            let seriesTemplate = { type: 'bar', seriesLayoutBy: 'row', itemStyle: {}, stack: model.customization.stack ? "stack" : "" };
-            seriesTemplate.name = model.dataset.source[row][0];
-            seriesTemplate.itemStyle.color = getDefaultColor(colors, row - 1);
-            model.series.push(seriesTemplate);
-        }
+        
+    if (event === "columns") {
+        // X Axis as columns means series by row
+        getBarSeriesByRow(model, colors);        
     }
     if (event === "rows") {
-        for (let column = 1; column < model.dataset.source[0].length; column++) {
-            let seriesTemplate = { type: 'bar', seriesLayoutBy: 'column', itemStyle: {} , stack: model.customization.stack ? "stack" : ""};
-            seriesTemplate.name = model.dataset.source[0][column];
-            seriesTemplate.itemStyle.color = getDefaultColor(colors, column - 1);
-            model.series.push(seriesTemplate);
-        }
+        // X Axis as rows means series by column
+        getBarSeriesByColumn(model, colors);
     }
-    //important: force chart to clear data and re-render
-    model.customization.forceClear = true;
+    //!important: force chart to clear data and re-render
+    model.customization.forceUpdate = true;
 };
 
 const changeSeries = (model) => {
@@ -789,7 +783,7 @@ const changeStack = (event, model) => {
 };
 
 export default defineComponent({
-    name: "menu-panel",
+    name: "bar-menu-panel",
     components: {
         FontStyle,
     },
@@ -800,7 +794,7 @@ export default defineComponent({
             model: store.getters.option,
             barSettings,
             colors: store.getters.colors,
-            changeBarOrientation,
+            changeOrientation,
             changeXAxisAs,
             changeSeries,
             changeStack

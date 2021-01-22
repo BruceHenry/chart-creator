@@ -22,7 +22,7 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 
-import templateHtml from "../resources/template/templateHtml";
+import templateHtml from "../resources/templateHtml";
 
 export default defineComponent({
     name: "chart-controller",

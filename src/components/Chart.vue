@@ -20,16 +20,17 @@ import * as echarts from "echarts/lib/echarts";
 
 import { defineComponent, onMounted, watchEffect } from "vue";
 import { useStore } from "vuex";
-import defaultColors from "../resources/template/colors.json";
+
+import defaultColors from "../resources/colors.json";
 import { getDefaultColor } from "../utils/chartUtil";
 
 const updateChart = (echartsInstance, option) => {
     try {
-        if (option.customization.forceClear) {
-            console.debug("updateChart, forceClear: ", option.customization.forceClear, option);
+        if (option.customization.forceUpdate) {
+            console.debug("updateChart, forceUpdate: ", option.customization.forceUpdate, option);
 
-            //important: set forceClear to false for quick(non-refresh) update
-            option.customization.forceClear = false;
+            //important: set forceUpdate to false for quick(non-refresh) update
+            option.customization.forceUpdate = false;
 
             //remove background color and series colors
             delete option.backgroundColor;
@@ -50,7 +51,7 @@ const updateChart = (echartsInstance, option) => {
 
             echartsInstance.setOption(option);
         } else {
-            console.debug("updateChart, forceClear: ", option.customization.forceClear, option);
+            console.debug("updateChart, forceUpdate: ", option.customization.forceUpdate, option);
             echartsInstance.setOption(option);
         }
     } catch (error) {

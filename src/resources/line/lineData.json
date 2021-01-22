@@ -1,37 +1,23 @@
 {
-    "Example Data 1": [
+    "One Row Example": [
         [
             "",
             "Column A",
-            "Column B"
+            "Column B",
+            "Column C",
+            "Column D",
+            "Column E"
         ],
         [
             "Row 1",
-            50,
-            10
-        ],
-        [
-            "Row 2",
-            40,
-            20
-        ],
-        [
-            "Row 3",
+            5,
             30,
-            30
-        ],
-        [
-            "Row 4",
-            20,
-            40
-        ],
-        [
-            "Row 5",
-            10,
+            30,
+            45,
             50
         ]
     ],
-    "Example Data 2": [
+    "Two Rows Example": [
         [
             "",
             "Column A",
@@ -46,11 +32,11 @@
             25,
             20,
             15,
-            10
+            5
         ],
         [
             "Row 2",
-            10,
+            5,
             15,
             20,
             25,

@@ -1,0 +1,94 @@
+{
+    "menuStructure": {
+        "global": [
+            "Basics"
+        ],
+        "basics": [
+            "Label"
+        ],
+        "color": [
+            "Line Colors"
+        ],
+        "xAxis": [
+            "Label",
+            "Name",
+            "Tick and Line"
+        ],
+        "yAxis": [
+            "Label",
+            "Name",
+            "Tick and Line"
+        ],
+        "title": [],
+        "legend": [
+            "Position",
+            "Icon"
+        ],
+        "interaction": [
+            "X Axis Pointer",
+            "Y Axis Pointer"
+        ],
+        "data": []
+    },
+    "themes": [
+        "default",
+        "dark",
+        "vintage",
+        "dark-bold",
+        "dark-digerati",
+        "gray",
+        "infographic",
+        "inspired",
+        "jazz",
+        "macarons",
+        "macarons2",
+        "royal",
+        "shine",
+        "tech-blue"
+    ],
+    "horizontalPositions": [
+        "left",
+        "center",
+        "right"
+    ],
+    "verticalPositions": [
+        "top",
+        "middle",
+        "bottom"
+    ],
+    "axisPosition": [
+        "start",
+        "center",
+        "end"
+    ],
+    "axisPointer": [
+        "line",
+        "shadow",
+        "none"
+    ],
+    "labelPosition": [
+        "top",
+        "left",
+        "right",
+        "bottom",
+        "inside",
+        "insideLeft",
+        "insideRight",
+        "insideTop",
+        "insideBottom",
+        "insideTopLeft",
+        "insideBottomLeft",
+        "insideTopRight",
+        "insideBottomRight"
+    ],
+    "legendShape": [
+        "roundRect",
+        "circle",
+        "rect",
+        "triangle",
+        "diamond",
+        "pin",
+        "arrow",
+        "none"
+    ]
+}

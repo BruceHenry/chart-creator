@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import { generateOptionWithDataset, updateOptionWithDataset } from '../utils/chartUtil';
-import defaultColors from "../resources/template/colors.json";
+import defaultColors from "../resources/colors.json";
 
 const option:any = {};
 const colors = defaultColors;
@@ -47,19 +47,16 @@ export const store = createStore({
         setColors({commit}, colors) {
             commit('setColors', colors);
         },
-        setChartData({commit, state}, chartData) {
-            const option = generateOptionWithDataset(chartData);
-            option.customization.forceClear = true;
-            commit('setOption', option);
-        },
         updateChartData({commit, state}, {row, col, value}) {
             updateOptionWithDataset(state.option, {row, col, value});
         },
         setFileData({commit, dispatch, state}, fileData) {
             commit('setFileData', fileData);
         },
-        setSheet({commit, dispatch, state}, sheetName) {
-            dispatch('setChartData', state.fileData[sheetName]);
+        setSheet({commit, state}, {sheetName, chartPath}) {
+            const option = generateOptionWithDataset(state.fileData[sheetName], chartPath);
+            option.customization.forceUpdate = true;
+            commit('setOption', option);
         },
         setSheetNames({commit}, sheetNames) {
             commit('setSheetNames', sheetNames);

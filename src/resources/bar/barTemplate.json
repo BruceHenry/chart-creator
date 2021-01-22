@@ -2,7 +2,7 @@
     "customization": {
         "theme": "default",
         "xAxisAs": "columns",
-        "barOrientation": "vertical",
+        "orientation": "vertical",
         "seriesOption": {
             "showBackground": false,
             "backgroundStyle": {
@@ -17,7 +17,7 @@
                 "fontSize": 12
             }
         },
-        "forceClear": false,
+        "forceUpdate": false,
         "stack": false
     },
     "backgroundColor": "#FFFFFF",
@@ -81,7 +81,8 @@
         "axisPointer": {
             "show": false,
             "type": "shadow"
-        }
+        },
+        "boundaryGap": true
     },
     "yAxis": {
         "type": "value",
@@ -110,7 +111,8 @@
         "axisPointer": {
             "show": false,
             "type": "line"
-        }
+        },
+        "boundaryGap": true
     },
     "series": []
 }

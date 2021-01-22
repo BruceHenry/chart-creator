@@ -1,0 +1,46 @@
+{
+    "One Row Example": [
+        [
+            "",
+            "Column A",
+            "Column B",
+            "Column C",
+            "Column D",
+            "Column E"
+        ],
+        [
+            "Row 1",
+            10,
+            20,
+            30,
+            40,
+            50
+        ]
+    ],
+    "Two Rows Example": [
+        [
+            "",
+            "Column A",
+            "Column B",
+            "Column C",
+            "Column D",
+            "Column E"
+        ],
+        [
+            "Row 1",
+            30,
+            25,
+            20,
+            15,
+            10
+        ],
+        [
+            "Row 2",
+            10,
+            15,
+            20,
+            25,
+            30
+        ]
+    ]
+}

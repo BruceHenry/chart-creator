@@ -1,0 +1,119 @@
+{
+    "customization": {
+        "theme": "default",
+        "xAxisAs": "columns",
+        "orientation": "horizental",
+        "seriesOption": {
+            "showBackground": false,
+            "backgroundStyle": {
+                "color": "#B4B4B4"
+            },
+            "label": {
+                "show": false,
+                "position": "top",
+                "distance": 5,
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "fontSize": 12
+            },
+            "smooth": false
+        },
+        "forceUpdate": false,
+        "stack": false
+    },
+    "backgroundColor": "#FFFFFF",
+    "title": {
+        "text": "",
+        "show": true,
+        "left": "left",
+        "top": "top",
+        "padding": 5,
+        "textStyle": {
+            "fontWeight": "bold",
+            "fontStyle": "normal",
+            "fontSize": 18
+        }
+    },
+    "dataset": {
+        "sourceHeader": true
+    },
+    "tooltip": {},
+    "legend": {
+        "show": true,
+        "selectedMode": true,
+        "left": "center",
+        "top": "top",
+        "icon": "roundRect",
+        "padding": 5,
+        "itemGap": 10.5,
+        "itemWidth": 25.5,
+        "itemHeight": 14.5,
+        "textStyle": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12
+        }
+    },
+    "xAxis": {
+        "data": [],
+        "type": "category",
+        "inverse": false,
+        "nameLocation": "end",
+        "nameGap": 25,
+        "nameTextStyle": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12
+        },
+        "axisLabel": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12,
+            "margin": 8
+        },
+        "axisTick": {
+            "show": true,
+            "inside": false,
+            "length": 5
+        },
+        "axisLine":{
+            "show": true
+        },
+        "axisPointer": {
+            "show": false,
+            "type": "shadow"
+        },
+        "boundaryGap": false
+    },
+    "yAxis": {
+        "type": "value",
+        "inverse": false,
+        "nameLocation": "end",
+        "nameGap": 15,
+        "nameTextStyle": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12
+        },
+        "axisLabel": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12,
+            "margin": 8
+        },
+        "axisTick": {
+            "show": true,
+            "inside": false,
+            "length": 5
+        },
+        "axisLine":{
+            "show": true
+        },
+        "axisPointer": {
+            "show": false,
+            "type": "line"
+        },
+        "boundaryGap": false
+    },
+    "series": []
+}

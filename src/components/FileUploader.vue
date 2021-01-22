@@ -9,7 +9,9 @@
             <span v-if="uploadedFile.file" class="filename-span">
                 File: {{ uploadedFile.file.name }}
             </span>
-            <span v-else class="filename-span">Support xls/xlsx/csv/json file</span>
+            <span v-else class="filename-span"
+                >Support xls/xlsx/csv/json file</span
+            >
         </div>
         <div id="sheet-selector-div">
             <label>Select Sheet: </label>
@@ -32,7 +34,7 @@
 </template>
 
 <script>
-import { store } from "@/store";
+// import { store } from "@/store";
 import {
     defineComponent,
     nextTick,
@@ -42,6 +44,8 @@ import {
 } from "vue";
 import { ref, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+
 import XLSX from "xlsx";
 
 const to_json = function (workbook) {
@@ -63,7 +67,7 @@ const getExtension = (fileName) => {
     return "";
 };
 
-const handleXlsxFile = (file, store) => {
+const handleXlsxFile = (file, store, chartPath) => {
     const reader = new FileReader();
     reader.onload = function (e) {
         const data = e.target.result;
@@ -75,12 +79,12 @@ const handleXlsxFile = (file, store) => {
         }
         store.dispatch("setSheetNames", sheetNames);
         store.dispatch("setFileData", fileData);
-        store.dispatch("setSheet", sheetNames[0]);
+        store.dispatch("setSheet", {sheetName: sheetNames[0], chartPath});
     };
     reader.readAsBinaryString(file);
 };
 
-const handleJsonFile = (file) => {
+const handleJsonFile = (file, store, chartPath) => {
     const reader = new FileReader();
     reader.onload = function (e) {
         const option = JSON.parse(e.target.result);
@@ -91,9 +95,9 @@ const handleJsonFile = (file) => {
         const fileData = { Sheet1: option.dataset.source };
         store.dispatch("setSheetNames", sheetNames);
         store.dispatch("setFileData", fileData);
-        store.dispatch("setSheet", sheetNames[0]);
+        store.dispatch("setSheet", {sheetName: sheetNames[0], chartPath});
         store.dispatch("setOption", option);
-        option.customization.forceClear = true;
+        option.customization.forceUpdate = true;
     };
     reader.readAsText(file);
 };
@@ -103,6 +107,11 @@ export default defineComponent({
     components: {},
     setup() {
         const store = useStore();
+        const route = useRoute();
+        const path = route.path;
+
+        const pathArray = path.split("/");
+        const chartPath = pathArray[pathArray.length - 1];
 
         const XLSX_FORMAT = ["xls", "xlsx", "csv"];
 
@@ -119,9 +128,9 @@ export default defineComponent({
 
             const extension = getExtension(file.name);
             if (extension === "json") {
-                handleJsonFile(file, store);
+                handleJsonFile(file, store, chartPath);
             } else if (XLSX_FORMAT.indexOf(extension) !== -1) {
-                handleXlsxFile(file, store);
+                handleXlsxFile(file, store, chartPath);
             } else {
                 getCurrentInstance().ctx.$message.error(
                     "Unsupported extension of file, please upload json/xls/xlsx/csv file."
@@ -130,7 +139,7 @@ export default defineComponent({
         };
 
         const sheetOnChange = ($event) => {
-            store.dispatch("setSheet", $event.target.value);
+            store.dispatch("setSheet", {sheetName: $event.target.value, chartPath });
         };
 
         onMounted(() => {
@@ -166,7 +175,7 @@ export default defineComponent({
     margin: 10px 0;
 }
 #selected-sheet-input {
-    width: 175px;
+    width: 225px;
     height: 25px;
     font-size: 15px;
     border-radius: 5px;

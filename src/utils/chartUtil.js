@@ -1,5 +1,7 @@
-import barChartTemplate from '../resources/template/bar.json';
-import defaultColors from '../resources/template/colors.json';
+import barTemplate from '../resources/bar/barTemplate.json';
+import lineTemplate from '../resources/line/lineTemplate.json';
+
+import defaultColors from '../resources/colors.json';
 
 export const getDefaultColor = function (colors, index) {
     if (index >= colors.length) {
@@ -8,8 +10,17 @@ export const getDefaultColor = function (colors, index) {
     return colors[index];
 }
 
-export const generateOptionWithDataset = function (inputData) {
-    const outputJson = JSON.parse(JSON.stringify(barChartTemplate));
+export const generateOptionWithDataset = function (inputData, chartPath) {
+    switch (chartPath) {
+        case 'bar':
+            return getBarOption(inputData);
+        case 'line':
+            return getLineOption(inputData);
+    }
+}
+
+const getBarOption = function (inputData) {
+    const outputJson = JSON.parse(JSON.stringify(barTemplate));
 
     //dataset
     outputJson.dataset.source = inputData;
@@ -17,24 +28,103 @@ export const generateOptionWithDataset = function (inputData) {
     //xAxis
     delete outputJson.xAxis.data;
 
-    //series (xAxis as columns)
-    for (let row = 1; row < inputData.length; row++) {
-        let seriesTemplate = { type: 'bar', seriesLayoutBy: 'row', itemStyle: {}, stack:"" };
-        seriesTemplate.name = inputData[row][0];
-        seriesTemplate.itemStyle.color = getDefaultColor(defaultColors, row - 1);
-        outputJson.series.push(seriesTemplate);
+    //Default by row
+    getBarSeriesByRow(outputJson);
+
+    return outputJson;
+}
+
+export const getBarSeriesByRow = function (model, colors) {
+    if (!colors) {
+        colors = defaultColors;
     }
+
+    const data = model.dataset.source;
+    for (let row = 1; row < data.length; row++) {
+        let seriesTemplate = { type: 'bar', seriesLayoutBy: 'row', itemStyle: {}, stack: model.customization.stack ? "stack" : ""};
+        seriesTemplate.name = data[row][0];
+        seriesTemplate.itemStyle.color = getDefaultColor(colors, row - 1);
+        model.series.push(seriesTemplate);
+    }
+};
+
+export const getBarSeriesByColumn = function (model, colors) {
+    if (!colors) {
+        colors = defaultColors;
+    }
+
+    const data = model.dataset.source;
+    for (let col = 1; col < data[0].length; col++) {
+        let seriesTemplate = { type: 'bar', seriesLayoutBy: 'column', itemStyle: {}, stack: model.customization.stack ? "stack" : ""};
+        seriesTemplate.name = data[0][col];
+        seriesTemplate.itemStyle.color = getDefaultColor(colors, col - 1);
+        model.series.push(seriesTemplate);
+    }
+};
+
+const getLineOption = function (inputData) {
+    const outputJson = JSON.parse(JSON.stringify(lineTemplate));
+
+    //dataset
+    outputJson.dataset.source = inputData;
+
+    //xAxis
+    delete outputJson.xAxis.data;
+
+    //Default by row
+    getLineSeriesByRow(outputJson);
+    
+    //series (xAxis as columns)
+    // for (let row = 1; row < inputData.length; row++) {
+    //     let seriesTemplate = { type: 'line', seriesLayoutBy: 'row', itemStyle: {}, stack: "" };
+    //     seriesTemplate.name = inputData[row][0];
+    //     seriesTemplate.itemStyle.color = getDefaultColor(defaultColors, row - 1);
+    //     outputJson.series.push(seriesTemplate);
+    // }
 
     //series (xAxis as rows)
     // for (let col = 1; col < inputData[0].length; col++) {
-    //     let seriesTemplate = { type: 'bar', seriesLayoutBy: 'column', itemStyle: {}, stack:"" };
+    //     let seriesTemplate = { type: 'line', seriesLayoutBy: 'column', itemStyle: {}, stack:"" };
     //     seriesTemplate.name = inputData[0][col];
     //     seriesTemplate.itemStyle.color = getDefaultColor(defaultColors, col - 1);
     //     outputJson.series.push(seriesTemplate);
     // }
-
     return outputJson;
 }
+
+export const getLineSeriesByRow = function (model, colors) {
+    if (!colors) {
+        colors = defaultColors;
+    }
+
+    const data = model.dataset.source;
+    for (let row = 1; row < data.length; row++) {
+        let seriesTemplate = { type: 'line', seriesLayoutBy: 'row', itemStyle: {}, stack: model.customization.stack ? "stack" : "", smooth: model.customization.seriesOption.smooth};
+        if (seriesTemplate.stack === "stack") {
+            seriesTemplate.areaStyle = {};
+        }
+        seriesTemplate.name = data[row][0];
+        seriesTemplate.itemStyle.color = getDefaultColor(colors, row - 1);
+        model.series.push(seriesTemplate);
+    }
+};
+
+export const getLineSeriesByColumn = function (model, colors) {
+    if (!colors) {
+        colors = defaultColors;
+    }
+
+    const data = model.dataset.source;
+    for (let col = 1; col < data[0].length; col++) {
+        let seriesTemplate = { type: 'line', seriesLayoutBy: 'column', itemStyle: {}, stack: model.customization.stack ? "stack" : "", smooth: model.customization.seriesOption.smooth};
+        if (seriesTemplate.stack === "stack") {
+            seriesTemplate.areaStyle = {};
+        }
+        seriesTemplate.name = data[0][col];
+        seriesTemplate.itemStyle.color = getDefaultColor(colors, col - 1);
+        model.series.push(seriesTemplate);
+    }
+};
 
 export const updateOptionWithDataset = function (option, { row, col, value }) {
     if (row === 0 && col === 0) {
@@ -47,12 +137,12 @@ export const updateOptionWithDataset = function (option, { row, col, value }) {
     if (option.customization.xAxisAs === "rows" && row === 0) {
         option.series[col - 1].name = value;
     }
-    
+
     option.dataset.source[row][col] = value;
 }
 
 // export const generateOption = function (inputData) {
-//     const outputJson = JSON.parse(JSON.stringify(barChartTemplate));
+//     const outputJson = JSON.parse(JSON.stringify(barTemplate));
 
 
 //     //xAxis
@@ -98,7 +188,7 @@ export const updateOptionWithDataset = function (option, { row, col, value }) {
 // }
 
 // function initInputJson(inputJson) {
-//   let outputJson = Object.assign({}, barChartTemplate);
+//   let outputJson = Object.assign({}, barTemplate);
 
 //   if (inputJson === undefined || inputJson === null) {
 //     console.error("Invalid input JSON, undefined or null");

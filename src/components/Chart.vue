@@ -26,15 +26,13 @@ import { getDefaultColor } from "../utils/chartUtil";
 
 const updateChart = (echartsInstance, option) => {
     try {
+        console.debug("updateChart, forceUpdate: ", option.customization.forceUpdate, option);
         if (option.customization.forceUpdate) {
-            console.debug("updateChart, forceUpdate: ", option.customization.forceUpdate, option);
-
-            //important: set forceUpdate to false for quick(non-refresh) update
+            //!important: set forceUpdate to false for quick(non-refresh) update
             option.customization.forceUpdate = false;
 
             //remove background color and series colors
             delete option.backgroundColor;
-            removeSeriesColors(option.series);
 
             echartsInstance.dispose();
             echartsInstance = echarts.init(
@@ -51,23 +49,12 @@ const updateChart = (echartsInstance, option) => {
 
             echartsInstance.setOption(option);
         } else {
-            console.debug("updateChart, forceUpdate: ", option.customization.forceUpdate, option);
             echartsInstance.setOption(option);
         }
     } catch (error) {
         console.error("Error happens during updateChart", error);
     }
     return echartsInstance;
-};
-
-const removeSeriesColors = (series) => {
-    if (!Array.isArray(series)) {
-        return;
-    }
-
-    for (let i in series) {
-        series[i].itemStyle.color = "";
-    }
 };
 
 const updateSeriesColors = (series, echartsInstance) => {

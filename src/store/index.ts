@@ -23,6 +23,7 @@ export const store = createStore({
     mutations: {
         setOption(state, option) {
             Object.assign(state.option, option);
+            option.customization.forceUpdate = true;
         },
         setFileData(state, fileData) {
             state.fileData = fileData;
@@ -55,7 +56,6 @@ export const store = createStore({
         },
         setSheet({commit, state}, {sheetName, chartPath}) {
             const option = generateOptionWithDataset(state.fileData[sheetName], chartPath);
-            option.customization.forceUpdate = true;
             commit('setOption', option);
         },
         setSheetNames({commit}, sheetNames) {

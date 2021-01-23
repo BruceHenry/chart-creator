@@ -97,7 +97,6 @@ const handleJsonFile = (file, store, chartPath) => {
         store.dispatch("setFileData", fileData);
         store.dispatch("setSheet", {sheetName: sheetNames[0], chartPath});
         store.dispatch("setOption", option);
-        option.customization.forceUpdate = true;
     };
     reader.readAsText(file);
 };

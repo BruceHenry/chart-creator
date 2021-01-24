@@ -18,7 +18,8 @@
             }
         },
         "forceUpdate": false,
-        "stack": false
+        "stack": false,
+        "resetColor": true
     },
     "backgroundColor": "#FFFFFF",
     "title": {

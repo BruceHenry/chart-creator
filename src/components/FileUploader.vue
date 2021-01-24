@@ -96,6 +96,10 @@ const handleJsonFile = (file, store, chartPath) => {
         store.dispatch("setSheetNames", sheetNames);
         store.dispatch("setFileData", fileData);
         store.dispatch("setSheet", {sheetName: sheetNames[0], chartPath});
+        //resetColor to false to keep the colors
+        option.customization.resetColor = false;
+        //force to re-init
+        option.customization.forceUpdate = true;
         store.dispatch("setOption", option);
     };
     reader.readAsText(file);

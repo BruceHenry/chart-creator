@@ -26,12 +26,17 @@ import { getDefaultColor } from "../utils/chartUtil";
 
 const updateChart = (echartsInstance, option) => {
     try {
-        console.debug("updateChart, forceUpdate: ", option.customization.forceUpdate, option);
-        if (option.customization.forceUpdate) {
+        console.debug(
+            "updateChart, forceUpdate: ",
+            option.customization.forceUpdate,
+            option
+        );
+        if (option.customization.forceUpdate) {//dispose and re-init echart instance
             //!important: set forceUpdate to false for quick(non-refresh) update
             option.customization.forceUpdate = false;
 
-            //remove background color and series colors
+            //remove background color to set the theme successfully
+            const originBackgroundColor = option.backgroundColor;
             delete option.backgroundColor;
 
             echartsInstance.dispose();
@@ -39,14 +44,19 @@ const updateChart = (echartsInstance, option) => {
                 document.getElementById("echarts"),
                 option.customization.theme
             );
-            echartsInstance.setOption(option);
+            echartsInstance.setOption(option);//set option to call getOption() later to get theme colors
 
-            //re-set for background color
-            option.backgroundColor = handleBackgroundColor(
+            if (option.customization.resetColor) {
+                //reset background color and series color based on themes
+                option.backgroundColor = handleBackgroundColor(
                     echartsInstance.getOption().backgroundColor
-                );            
-            updateSeriesColors(option.series, echartsInstance);
-
+                );
+                updateSeriesColors(option.series, echartsInstance);
+            }
+            else {
+                option.customization.resetColor = true;
+                option.backgroundColor = originBackgroundColor;
+            }
             echartsInstance.setOption(option);
         } else {
             echartsInstance.setOption(option);
@@ -72,13 +82,25 @@ const updateSeriesColors = (series, echartsInstance) => {
 };
 
 const handleBackgroundColor = (color) => {
-    if (!color || typeof color !== 'string' || color.length !== 4 && color.length !== 7) {
-        return ("#ffffff");
+    if (
+        !color ||
+        typeof color !== "string" ||
+        (color.length !== 4 && color.length !== 7)
+    ) {
+        return "#ffffff";
     }
     if (color.length === 4) {
-        return ('#' + color[1] + color[1] + color[2] + color[2] + color[3] + color[3]);
+        return (
+            "#" +
+            color[1] +
+            color[1] +
+            color[2] +
+            color[2] +
+            color[3] +
+            color[3]
+        );
     }
-    return (color);
+    return color;
 };
 
 export default defineComponent({

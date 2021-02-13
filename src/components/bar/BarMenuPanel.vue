@@ -39,6 +39,30 @@
                             <el-option value="horizontal">horizontal</el-option>
                         </el-select>
                     </div>
+                    <div class="menu-container">
+                        <label class="menu-label">Theme</label>
+                        <el-select
+                            class="menu-input"
+                            v-model="model.customization.theme"
+                            @change="model.customization.forceUpdate = true"
+                        >
+                            <el-option
+                                v-for="item in barSettings.themes"
+                                :key="item"
+                                :label="item"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
+                    </div>
+                    <div class="menu-container">
+                        <label class="menu-label">Background Color</label>
+                        <span class="menu-input">
+                            <input
+                                v-model="model.backgroundColor"
+                                type="color"
+                            />
+                        </span>
+                    </div>
                     <el-collapse v-model="barSettings.menuStructure.basics">
                         <el-collapse-item title="Label" name="Label">
                             <div class="menu-container">
@@ -152,60 +176,25 @@
                 <!-- Color -->
                 <el-collapse-item>
                     <template #title>
-                        <span class="menu-header">Color</span>
+                        <span class="menu-header">Bar Style</span>
                     </template>
-                    <div class="menu-container">
-                        <label class="menu-label">Theme</label>
-                        <el-select
-                            class="menu-input"
-                            v-model="model.customization.theme"
-                            @change="model.customization.forceUpdate = true"
+                        <div
+                            v-for="(item, index) in model.series"
+                            :key="index"
                         >
-                            <el-option
-                                v-for="item in barSettings.themes"
-                                :key="item"
-                                :label="item"
-                                :value="item"
-                            ></el-option>
-                        </el-select>
-                    </div>
-                    <div class="menu-container">
-                        <label class="menu-label">Background Color</label>
-                        <span class="menu-input">
-                            <input
-                                v-model="model.backgroundColor"
-                                type="color"
-                            />
-                        </span>
-                    </div>
-                    <el-collapse
-                        v-model="barSettings.menuStructure.color"
-                        v-if="
-                            Array.isArray(model.series) &&
-                            model.series.length > 0
-                        "
-                    >
-                        <el-collapse-item title="Bar Colors" name="Bar Colors">
-                            <div
-                                v-for="(item, index) in model.series"
-                                :key="index"
-                            >
-                                <div class="menu-container">
-                                    <label class="menu-label">{{
-                                        index + 1 + ". " + item.name + ":"
-                                    }}</label>
-                                    <span class="menu-input">
-                                        <input
-                                            v-model="item.itemStyle.color"
-                                            type="color"
-                                            list="series-colors"
-                                        />
-                                    </span>
-                                </div>
+                            <div class="menu-container">
+                                <label class="menu-label">{{
+                                    item.name + ": Color"
+                                }}</label>
+                                <span class="menu-input">
+                                    <input
+                                        v-model="item.itemStyle.color"
+                                        type="color"
+                                        list="series-colors"
+                                    />
+                                </span>
                             </div>
-                        </el-collapse-item>
-                    </el-collapse>
-
+                        </div>
                     <datalist id="series-colors">
                         <option v-for="color in colors" :key="color">
                             {{ color }}

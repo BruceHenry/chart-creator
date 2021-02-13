@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "echarts": "^4.9.0",
+    "echarts": "^5.0.1",
     "element-plus": "^1.0.1-beta.5",
     "tabulator-tables": "^4.8.4",
     "vue": "^3.0.3",

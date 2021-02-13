@@ -6,9 +6,7 @@
         "basics": [
             "Label"
         ],
-        "color": [
-            "Line Colors"
-        ],
+        "lineStyle": [],
         "xAxis": [
             "Label",
             "Name",
@@ -90,5 +88,10 @@
         "pin",
         "arrow",
         "none"
+    ],
+    "lineType": [
+        "solid",
+        "dashed",
+        "dotted"
     ]
 }

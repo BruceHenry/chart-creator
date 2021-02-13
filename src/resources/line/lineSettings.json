@@ -93,5 +93,10 @@
         "solid",
         "dashed",
         "dotted"
+    ],
+    "stepType":[
+        "start",
+        "middle",
+        "end"
     ]
 }

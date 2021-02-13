@@ -84,7 +84,16 @@ export const getLineSeriesByRow = function (model, colors) {
 
     const data = model.dataset.source;
     for (let row = 1; row < data.length; row++) {
-        let seriesTemplate = { type: 'line', seriesLayoutBy: 'row', itemStyle: {}, lineStyle:{width: 2, type: 'solid'}, stack: model.customization.stack ? "stack" : "", smooth: model.customization.seriesOption.smooth};
+        let seriesTemplate = { 
+            type: 'line', 
+            seriesLayoutBy: 'row', 
+            itemStyle: {}, 
+            lineStyle:{width: 2, type: 'solid'}, 
+            stack: model.customization.stack ? "stack" : "", 
+            smooth: model.customization.seriesOption.smooth,
+            connectNulls: model.customization.seriesOption.connectNulls,
+            step: model.customization.seriesOption.step
+        };
         if (seriesTemplate.stack === "stack") {
             seriesTemplate.areaStyle = {};
         }
@@ -101,7 +110,16 @@ export const getLineSeriesByColumn = function (model, colors) {
 
     const data = model.dataset.source;
     for (let col = 1; col < data[0].length; col++) {
-        let seriesTemplate = { type: 'line', seriesLayoutBy: 'column', itemStyle: {}, lineStyle:{width: 2, type: 'solid'}, stack: model.customization.stack ? "stack" : "", smooth: model.customization.seriesOption.smooth};
+        let seriesTemplate = { 
+            type: 'line', 
+            seriesLayoutBy: 'column', 
+            itemStyle: {}, 
+            lineStyle:{width: 2, type: 'solid'}, 
+            stack: model.customization.stack ? "stack" : "", 
+            smooth: model.customization.seriesOption.smooth,
+            connectNulls: model.customization.seriesOption.connectNulls,
+            step: model.customization.seriesOption.step
+        };
         if (seriesTemplate.stack === "stack") {
             seriesTemplate.areaStyle = {};
         }

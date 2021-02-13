@@ -16,7 +16,9 @@
                 "fontStyle": "normal",
                 "fontSize": 12
             },
-            "smooth": false
+            "smooth": false,
+            "connectNulls": true,
+            "step": ""
         },
         "forceUpdate": false,
         "stack": false,

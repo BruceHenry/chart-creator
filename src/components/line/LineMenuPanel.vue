@@ -40,6 +40,16 @@
                         </el-select>
                     </div>
                     <div class="menu-container">
+                        <label class="menu-label">Connect Null</label>
+                        <el-switch
+                            id="basics-connect-null"
+                            class="menu-input"
+                            type="checkbox"
+                            v-model="model.customization.seriesOption.connectNulls"
+                            @change="changeSeries(model)"
+                        />
+                    </div>
+                    <div class="menu-container">
                         <label class="menu-label">Smooth Line</label>
                         <el-switch
                             id="basics-smooth-line"
@@ -48,6 +58,22 @@
                             v-model="model.customization.seriesOption.smooth"
                             @change="changeSeries(model)"
                         />
+                    </div>
+                    <div class="menu-container">
+                        <label class="menu-label">Step</label>
+                        <el-select
+                            class="menu-input"
+                            v-model="model.customization.seriesOption.step"
+                            @change="changeSeries(model)"
+                        >
+                            <el-option label="off" value="">off</el-option>
+                            <el-option
+                                v-for="item in lineSettings.stepType"
+                                :key="item"
+                                :label="item"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
                     </div>
                     <div class="menu-container">
                         <label class="menu-label">Theme</label>

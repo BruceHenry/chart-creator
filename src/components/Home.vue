@@ -1,23 +1,33 @@
 <template>
     <div id="home">
-        <h1>Home Page</h1>
-        <p>
-            <router-link to="/chart/bar">Bar</router-link>
-        </p>
-        <p>
-            <router-link to="/chart/line">Line</router-link>
-        </p>
+        <div id="home-container">
+            <HomeNavOption label="Bar" path="/chart/bar" image-path="img/bar.png"></HomeNavOption>
+            <HomeNavOption label="Line" path="/chart/line" image-path="img/line.png"></HomeNavOption>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { defineComponent} from "vue";
+import HomeNavOption from "./HomeNavOption.vue";
 
-export default class Home extends Vue {}
+export default defineComponent({
+    name: "home",
+    components:{
+        HomeNavOption
+    },
+    setup() {
+    }
+});
 </script>
 
 <style scoped>
 #home {
     text-align: center;
+}
+#home-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 </style>

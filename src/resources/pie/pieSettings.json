@@ -1,0 +1,56 @@
+{
+    "menuStructure": {
+        "global": [
+            "Basics"
+        ],
+        "basics": [
+            "Label"
+        ],
+        "title": [],
+        "legend": [
+            "Position",
+            "Icon"
+        ],
+        "data": []
+    },
+    "themes": [
+        "default",
+        "dark",
+        "vintage",
+        "dark-bold",
+        "dark-digerati",
+        "gray",
+        "infographic",
+        "inspired",
+        "jazz",
+        "macarons",
+        "macarons2",
+        "royal",
+        "shine",
+        "tech-blue"
+    ],
+    "horizontalPositions": [
+        "left",
+        "center",
+        "right"
+    ],
+    "verticalPositions": [
+        "top",
+        "middle",
+        "bottom"
+    ],
+    "labelPosition": [
+        "outside",
+        "inside"
+    ],
+    "legendShape": [
+        "roundRect",
+        "circle",
+        "rect",
+        "triangle",
+        "diamond",
+        "pin",
+        "arrow",
+        "none"
+    ]
+}

@@ -757,9 +757,6 @@ const changeStack = (event, model) => {
         return;
     }
     if (event === true) {
-        if (!model.dataset.source[0][0]) {//source[0][0] MUST NOT be empty
-            model.dataset.source[0][0] = " ";
-        }
         for (let i in model.series) {
              model.series[i].stack = "stack";
         }

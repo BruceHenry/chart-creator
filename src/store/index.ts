@@ -22,6 +22,10 @@ export const store = createStore({
     },
     mutations: {
         setOption(state, option) {
+            //delete possible remaining attribute for pie chart
+            delete state.option.xAxis;
+            delete state.option.yAxis;
+
             Object.assign(state.option, option);
             option.customization.forceUpdate = true;
         },

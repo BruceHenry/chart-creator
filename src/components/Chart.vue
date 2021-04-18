@@ -20,11 +20,12 @@ import * as echarts from "echarts/lib/echarts";
 
 import { defineComponent, onMounted, watchEffect } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 
 import defaultColors from "../resources/colors.json";
 import { getDefaultColor } from "../utils/chartUtil";
 
-const updateChart = (echartsInstance, option) => {
+const updateChart = (echartsInstance, option, chartPath) => {
     try {
         console.debug(
             "updateChart, forceUpdate: ",
@@ -51,20 +52,36 @@ const updateChart = (echartsInstance, option) => {
                 option.backgroundColor = handleBackgroundColor(
                     echartsInstance.getOption().backgroundColor
                 );
-                updateSeriesColors(option.series, echartsInstance);
+                if (chartPath !== 'pie') {
+                    updateSeriesColors(option.series, echartsInstance);
+                }
             }
             else {
                 option.customization.resetColor = true;
                 option.backgroundColor = originBackgroundColor;
             }
-            echartsInstance.setOption(option);
+            echartsInstance.setOption(copyOption(chartPath, option));
         } else {
-            echartsInstance.setOption(option);
+            echartsInstance.setOption(copyOption(chartPath, option));
         }
     } catch (error) {
         console.error("Error happens during updateChart", error);
     }
     return echartsInstance;
+};
+
+const copyOption = (chartPath, option) => {
+    const optionCopy = JSON.parse(JSON.stringify(option))
+
+    // First number of pie chart must be an number (eChart bug?!)
+    console.log(Number(option.dataset.source[1][1]))
+    if (chartPath === 'pie' && option && option.dataset && option.dataset.source && option.dataset.source[1]) {
+        if (!option.dataset.source[1][1] || isNaN(Number(option.dataset.source[1][1]))) {
+            optionCopy.dataset.source[1][1] = 0;
+        }
+    }
+    console.log(optionCopy)
+    return optionCopy;
 };
 
 const updateSeriesColors = (series, echartsInstance) => {
@@ -107,6 +124,11 @@ export default defineComponent({
     name: "chart",
     setup() {
         const store = useStore();
+        const route = useRoute();
+        const path = route.path;
+
+        const pathArray = path.split("/");
+        const chartPath = pathArray[pathArray.length - 1];
 
         let echartsInstance;
 
@@ -120,7 +142,8 @@ export default defineComponent({
             watchEffect(() => {
                 echartsInstance = updateChart(
                     echartsInstance,
-                    store.getters.option
+                    store.getters.option,
+                    chartPath
                 );
                 store.dispatch("setColors", echartsInstance.getOption().color);
             });

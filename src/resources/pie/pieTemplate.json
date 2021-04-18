@@ -1,0 +1,56 @@
+{
+    "customization": {
+        "theme": "default",
+        "xAxisAs": "columns",
+        "orientation": "horizontal",
+        "seriesOption": {
+            "label": {
+                "show": true,
+                "position": "outside",
+                "distance": 5,
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "fontSize": 12
+            },
+            "labelLine": {
+                "show": true
+            }
+        },
+        "forceUpdate": false,
+        "resetColor": true
+    },
+    "backgroundColor": "#FFFFFF",
+    "title": {
+        "text": "",
+        "show": true,
+        "left": "left",
+        "top": "top",
+        "padding": 5,
+        "textStyle": {
+            "fontWeight": "bold",
+            "fontStyle": "normal",
+            "fontSize": 18
+        }
+    },
+    "dataset": {
+        "sourceHeader": null
+    },
+    "tooltip": {},
+    "legend": {
+        "show": true,
+        "selectedMode": true,
+        "left": "center",
+        "top": "top",
+        "icon": "roundRect",
+        "padding": 5,
+        "itemGap": 10.5,
+        "itemWidth": 25.5,
+        "itemHeight": 14.5,
+        "textStyle": {
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "fontSize": 12
+        }
+    },
+    "series": []
+}

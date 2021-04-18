@@ -1,0 +1,20 @@
+{
+    "Example": [
+        [
+            "Column",
+            "Column A",
+            "Column B",
+            "Column C",
+            "Column D",
+            "Column E"
+        ],
+        [
+            "Value",
+            30,
+            25,
+            20,
+            15,
+            5
+        ]
+    ]
+}

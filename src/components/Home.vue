@@ -3,6 +3,7 @@
         <div id="home-container">
             <HomeNavOption label="Bar" path="/chart/bar" image-path="img/bar.png"></HomeNavOption>
             <HomeNavOption label="Line" path="/chart/line" image-path="img/line.png"></HomeNavOption>
+            <HomeNavOption label="Pie" path="/chart/pie" image-path="img/pie.png"></HomeNavOption>
         </div>
     </div>
 </template>

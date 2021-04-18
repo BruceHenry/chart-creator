@@ -8,7 +8,7 @@
         >
             <el-tab-pane label="Chart">
                 <Chart></Chart>
-                <ChartController></ChartController>
+                <ChartDownloader></ChartDownloader>
             </el-tab-pane>
         </el-tabs>
         <div class="sub-container-div" id="data-container-div">
@@ -38,10 +38,11 @@ import { useRoute } from "vue-router";
 import Chart from "./Chart.vue";
 import DataTable from "./DataTable.vue";
 import FileUploader from "./FileUploader.vue";
-import ChartController from "./ChartController.vue";
+import ChartDownloader from "./ChartDownloader.vue";
 
 import barData from "../resources/bar/barData.json";
 import lineData from "../resources/line/lineData.json";
+import pieData from "../resources/pie/pieData.json";
 
 const loadData = (store, path) => {
     const pathArray = path.split("/");
@@ -53,6 +54,9 @@ const loadData = (store, path) => {
             break;
         case "line":
             exampleData = lineData;
+            break;
+        case "pie":
+            exampleData = pieData;
             break;
     }
     if (!exampleData) {
@@ -74,7 +78,7 @@ export default defineComponent({
         Chart,
         DataTable,
         FileUploader,
-        ChartController,
+        ChartDownloader,
     },
     setup() {
         const store = useStore();

@@ -2,12 +2,8 @@
     "customization": {
         "theme": "default",
         "xAxisAs": "columns",
-        "orientation": "horizental",
+        "orientation": "horizontal",
         "seriesOption": {
-            "showBackground": false,
-            "backgroundStyle": {
-                "color": "#B4B4B4"
-            },
             "label": {
                 "show": false,
                 "position": "top",

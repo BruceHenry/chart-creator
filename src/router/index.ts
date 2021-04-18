@@ -4,6 +4,7 @@ import MainPanel from '../components/MainPanel.vue'
 
 import BarMenuPanel from '../components/bar/BarMenuPanel.vue'
 import LineMenuPanel from '../components/line/LineMenuPanel.vue'
+import PieMenuPanel from '../components/pie/PieMenuPanel.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,6 +24,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'line',
         component: LineMenuPanel
+      },
+      {
+        path: 'pie',
+        component: PieMenuPanel
       }
     ]
   }

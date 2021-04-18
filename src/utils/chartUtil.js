@@ -1,5 +1,6 @@
 import barTemplate from '../resources/bar/barTemplate.json';
 import lineTemplate from '../resources/line/lineTemplate.json';
+import pieTemplate from '../resources/pie/pieTemplate.json';
 
 import defaultColors from '../resources/colors.json';
 
@@ -11,11 +12,19 @@ export const getDefaultColor = function (colors, index) {
 }
 
 export const generateOptionWithDataset = function (inputData, chartPath) {
+    // add whitespace into [0][0] to avoid bug in stacked chart
+    if (inputData && inputData[0] && inputData[0][0] === '') {
+        inputData[0][0] = ' ';
+    }
+
+    console.log(inputData)
     switch (chartPath) {
         case 'bar':
             return getBarOption(inputData);
         case 'line':
             return getLineOption(inputData);
+        case 'pie':
+            return getPieOption(inputData);
     }
 }
 
@@ -129,16 +138,68 @@ export const getLineSeriesByColumn = function (model, colors) {
     }
 };
 
+const getPieOption = function (inputData) {
+    const outputJson = JSON.parse(JSON.stringify(pieTemplate));
+
+    //dataset
+    outputJson.dataset.source = inputData;
+
+    //Default by row
+    getPieSeriesByRow(outputJson);
+    console.log(outputJson)
+    
+    return outputJson;
+}
+
+export const getPieSeriesByRow = function (model, colors) {
+    if (!colors) {
+        colors = defaultColors;
+    }
+
+    // const data = model.dataset.source;
+    let seriesTemplate = { 
+        type: 'pie', 
+        seriesLayoutBy: 'row', 
+        itemStyle: {},        
+        // encode: {
+        //     value: data[1][0],
+        //     itemName: data[0][0]
+        // }
+    };
+    // seriesTemplate.name = data[1][0];//using 1st row data
+    model.series.push(seriesTemplate);
+};
+
+export const getPieSeriesByColumn = function (model, colors) {
+    if (!colors) {
+        colors = defaultColors;
+    }
+
+    const data = model.dataset.source;
+    let seriesTemplate = { 
+        type: 'pie', 
+        seriesLayoutBy: 'column', 
+        itemStyle: {}
+    };
+    seriesTemplate.name = data[0][1];
+    model.series.push(seriesTemplate);
+};
+
 export const updateOptionWithDataset = function (option, { row, col, value }) {
+    // [0][0] value must not be empty
     if (row === 0 && col === 0) {
-        return;
+        if (!value) {
+            value = ' ';
+        }
     }
-    // need to update names in the series
-    if (option.customization.xAxisAs === "columns" && col === 0) {
-        option.series[row - 1].name = value;
-    }
-    if (option.customization.xAxisAs === "rows" && row === 0) {
-        option.series[col - 1].name = value;
+    else {
+        // need to update names in the series
+        if (option.customization.xAxisAs === "columns" && col === 0) {
+            option.series[row - 1].name = value;
+        }
+        if (option.customization.xAxisAs === "rows" && row === 0) {
+            option.series[col - 1].name = value;
+        }
     }
 
     option.dataset.source[row][col] = value;
